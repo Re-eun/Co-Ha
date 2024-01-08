@@ -5,12 +5,9 @@ import org.example.coha.domain.post.dto.CreatePostRequest
 import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.post.dto.PostWithReplyResponse
 import org.example.coha.domain.post.dto.UpdatePostRequest
-import org.example.coha.domain.post.model.Post
-import org.example.coha.domain.post.model.toResponse
 import org.example.coha.domain.post.repository.PostRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import javax.smartcardio.Card
 
 
 @Service
