@@ -15,7 +15,6 @@ data class UpdatePostRequest(
             title = title,
             content = content,
             name = name
-
         )
     }
 }

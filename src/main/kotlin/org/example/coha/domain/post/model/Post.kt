@@ -1,14 +1,17 @@
 package org.example.coha.domain.post.model
 
 import jakarta.persistence.*
+import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.reply.model.Reply
-import org.hibernate.annotations.CreationTimestamp
-import java.time.ZonedDateTime
+import org.springframework.data.jpa.domain.AbstractPersistable_.id
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Entity
 @Table(name = "post")
 class Post(
-
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null,
 
     @Column(name = "title")
     var title: String,
@@ -20,16 +23,19 @@ class Post(
     var name: String,
 
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
-    val replies: MutableList<Reply> = mutableListOf(),
+    val replies: MutableList<Reply> = mutableListOf()
+) {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null
-
-    ) {
-
-    @CreationTimestamp
-    @Column(updatable = false)
-    val createdAt: ZonedDateTime = ZonedDateTime.now()
-
+    @Column(name = "created_at")
+    var createdAt: String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH-mm"))
+}
+fun Post.toResponse(): PostResponse {
+    return PostResponse(
+        id = id!!,
+        title = title,
+        content = content,
+        createdAt = createdAt,
+        name = name
+    )
 
 }
