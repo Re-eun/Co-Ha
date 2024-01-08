@@ -1,4 +1,8 @@
 package org.example.coha.domain.post.dto
 
-class CreatePostRequest {
+data class CreatePostRequest(val name:String, val title:String, val content:String) {
+
+
+
+
 }
