@@ -20,10 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping
 class PostController(
     private val postService: PostService
 ) {
-    @PostMapping
-     fun createPost(@RequestBody createPostRequest: CreatePostRequest): ResponseEntity<PostResponse> {
-         return ResponseEntity.status(HttpStatus.CREATED).body(postService.createPost(createPostRequest))
-     }
 
     @PostMapping
     fun createPost(
