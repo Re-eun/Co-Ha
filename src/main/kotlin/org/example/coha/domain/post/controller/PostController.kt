@@ -53,7 +53,7 @@ class PostController(
     @GetMapping("/{postId}")
     fun getPostById(
         @PathVariable postId: Long
-    ): ResponseEntity<String> {
+    ): ResponseEntity<PostWithReplyResponse> {
         return ResponseEntity.status(HttpStatus.OK).body(postService.getPostById(postId))
 
     }

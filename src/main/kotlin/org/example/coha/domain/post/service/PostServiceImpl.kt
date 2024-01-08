@@ -4,6 +4,7 @@ import org.example.coha.domain.exception.ModelNotFoundException
 import org.example.coha.domain.post.dto.CreatePostRequest
 import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.post.dto.PostWithReplyResponse
+import org.example.coha.domain.post.dto.UpdatePostRequest
 import org.example.coha.domain.post.model.Post
 import org.example.coha.domain.post.model.toResponse
 import org.example.coha.domain.post.repository.PostRepository
