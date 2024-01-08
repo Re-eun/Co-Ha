@@ -3,7 +3,6 @@ package org.example.coha.domain.post.model
 import jakarta.persistence.*
 import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.reply.model.Reply
-import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
