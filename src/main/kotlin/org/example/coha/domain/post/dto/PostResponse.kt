@@ -16,7 +16,7 @@ data class PostResponse(
                 title = post.title,
                 content = post.content,
                 name = post.name,
-                createdAt = post.createdAt
+                createdAt = post.createdAt.toString()
             )
         }
     }

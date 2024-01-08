@@ -1,5 +1,7 @@
 package org.example.coha.domain.post.dto
 
+import org.example.coha.domain.post.model.Post
+
 data class UpdatePostRequest(
     val id: Long?,
     val title: String,
@@ -7,7 +9,7 @@ data class UpdatePostRequest(
     val name: String,
 ) {
 
-    fun to(): Post{
+    fun post(): Post{
         return  Post(
             id = id,
             title = title,

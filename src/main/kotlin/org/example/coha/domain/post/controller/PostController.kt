@@ -35,7 +35,7 @@ class PostController{
             name = postRequest.name
 
         )
-        val post: PostResponse = PostService.updatePost(request)
+        val post: PostResponse = postService
 
         return ResponseEntity
             .status(HttpStatus.OK)
