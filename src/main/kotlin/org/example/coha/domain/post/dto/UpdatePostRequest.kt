@@ -8,7 +8,8 @@ data class UpdatePostRequest(
     val content: String,
     val name: String,
 ) {
-    fun to(): Post {
+
+    fun post(): Post{
         return  Post(
             id = id,
             title = title,
