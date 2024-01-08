@@ -1,6 +1,8 @@
 package org.example.coha.domain.post.controller
 
+import org.example.coha.domain.post.dto.CreatePostRequest
 import org.example.coha.domain.post.dto.PostResponse
+import org.example.coha.domain.post.dto.PostWithReplyResponse
 import org.example.coha.domain.post.dto.UpdatePostRequest
 import org.example.coha.domain.post.service.PostService
 import org.springframework.http.ResponseEntity
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
 
 @RequestMapping("/posts")
 @RestController
@@ -18,10 +21,13 @@ class PostController(
     private val postService: PostService
 ) {
 
+    @PostMapping
+    fun createPost(
+        @RequestBody createPostRequest: CreatePostRequest
+    ): ResponseEntity<PostResponse> {
+    return  ResponseEntity.status(HttpStatus.CREATED).body(postService.createPost(createPostRequest))
+    }
 
-@RequestMapping("/posts")
-@RestController
-class PostController{
 
     @PutMapping("/{postId}")
     fun updatePost(
@@ -32,21 +38,22 @@ class PostController{
             id = postId,
             title = postRequest.title,
             content = postRequest.content,
-            createdAt = postRequest.createdAt,
             name = postRequest.name
 
         )
-        val post: PostResponse = PostService.updatePost(request)
+        val post: PostResponse = postService.updatePost(request)
 
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(post)
 
     }
+
+
     @GetMapping("/{postId}")
     fun getPostById(
         @PathVariable postId: Long
-    ): ResponseEntity<String> {
+    ): ResponseEntity<PostWithReplyResponse> {
         return ResponseEntity.status(HttpStatus.OK).body(postService.getPostById(postId))
 
     }
