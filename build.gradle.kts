@@ -8,15 +8,21 @@ plugins {
 
     kotlin("plugin.noarg") version "1.8.22"
 
-
 }
 
-noArg { annotation("jakarta.persistence.Entity")
+noArg {
+    annotation("jakarta.persistence.Entity")
     annotation("jakarta.persistence.MappedSuperclass")
-    annotation("jakarta.persistence.Embeddable") }
-allOpen { annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.Embeddable")
+}
+
+allOpen {
+    annotation("jakarta.persistence.Entity")
     annotation("jakarta.persistence.MappedSuperclass")
-    annotation("jakarta.persistence.Embeddable") }
+    annotation("jakarta.persistence.Embeddable")
+}
+
+
 
 group = "org.example"
 version = "0.0.1-SNAPSHOT"
