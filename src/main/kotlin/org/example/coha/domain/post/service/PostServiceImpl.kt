@@ -2,9 +2,9 @@ package org.example.coha.domain.post.service
 
 import org.example.coha.domain.post.repository.PostRepository
 import org.springframework.stereotype.Service
+import org.example.coha.domain.exception.ModelNotFoundException
+import org.springframework.data.repository.findByIdOrNull
 
-@Service
-class PostServiceImpl {
 
 
 @Service
