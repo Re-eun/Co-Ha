@@ -1,5 +1,10 @@
 package org.example.coha.domain.post.service
 
+import org.springframework.stereotype.Service
+
+@Service
+class PostServiceImpl {
+    val
 import org.example.coha.domain.exception.ModelNotFoundException
 import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.post.repository.PostRepository
