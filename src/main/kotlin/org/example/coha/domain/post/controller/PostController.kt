@@ -63,7 +63,7 @@ class PostController(
         val deletePostSuccessMessage = "게시글이 성공적으로 삭제되었습니다."
 
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(HttpStatus.NO_CONTENT)
                 .body(deletePostSuccessMessage)
     }
 
