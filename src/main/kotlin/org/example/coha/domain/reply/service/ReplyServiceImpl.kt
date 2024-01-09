@@ -9,6 +9,7 @@ import org.example.coha.domain.reply.model.Reply
 import org.example.coha.domain.reply.repository.ReplyRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ReplyServiceImpl(
@@ -16,6 +17,7 @@ class ReplyServiceImpl(
     private val postRepository: PostRepository
 ): ReplyService {
 
+    @Transactional
 
     override fun creatReply(createReplyRequest: CreateReplyRequest): ReplyResponse{
         val targetPost = postRepository.findByIdOrNull(createReplyRequest.postId)
