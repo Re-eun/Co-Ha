@@ -22,7 +22,11 @@ class PostServiceImpl(
 
     }
 
+    override fun getAllPostList(): List<PostResponse> {
+        // DB 에 저장된 모든 게시글들을 가져와서 PostResponse로 변환 후 반환
+        return postRepository.findAll().map { PostResponse.toPostResponse(it)}
 
+    }
 
     override fun getPostById(postId: Long): PostWithReplyResponse {
         // 받아온 postId에 해당하는 post를 가져와서 PostResponse 로 변환 후 반환
