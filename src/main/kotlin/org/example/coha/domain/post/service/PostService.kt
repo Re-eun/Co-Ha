@@ -10,6 +10,8 @@ interface PostService {
 
     fun createPost(request: CreatePostRequest): PostResponse
 
+    fun getAllPostList(): List<PostResponse>
+
     fun getPostById(postId: Long): PostWithReplyResponse
 
     fun updatePost(request: UpdatePostRequest): PostResponse
