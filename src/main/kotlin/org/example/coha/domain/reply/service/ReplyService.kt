@@ -9,4 +9,6 @@ interface ReplyService {
 
     fun creatReply(createReplyRequest: CreateReplyRequest): ReplyResponse
     fun updateReply(postId: Long, replyId: Long, request: UpdateReplyRequest): ReplyResponse
+
+    fun deleteReply(postId: Long, replyId: Long)
 }

@@ -45,9 +45,9 @@ class PostServiceImpl(
     }
 
 
+    @Transactional
     override fun deletePost(postId: Long) {
         postRepository.deleteById(postId)
     }
-
 
 }
