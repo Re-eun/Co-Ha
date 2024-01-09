@@ -10,7 +10,7 @@ data class PostResponse(
     var createdAt: String
 ) {
     companion object {
-        fun toPostResponse(post: Post): PostResponse {
+        fun toPostResponse(post: Post): PostResponse { //post객체를 postresponse로 변환
             return PostResponse(
                 id = post.id,
                 title = post.title,

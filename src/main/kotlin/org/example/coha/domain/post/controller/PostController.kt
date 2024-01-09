@@ -49,6 +49,10 @@ class PostController(
 
     }
 
+    @GetMapping
+    fun getAllPostList(): ResponseEntity<List<PostResponse>> {
+        return ResponseEntity.status(HttpStatus.OK).body(postService.getAllPostList())
+    }
 
     @GetMapping("/{postId}")
     fun getPostById(
