@@ -38,7 +38,9 @@ class ReplyController(
                     @PathVariable replyId: Long,
                     @RequestBody updateReplyRequest: UpdateReplyRequest
     ): ResponseEntity<ReplyResponse> {
-        return ResponseEntity.status(HttpStatus.OK).body(replyService.updateReply(postId, replyId, updateReplyRequest))
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(replyService.updateReply(postId, replyId, updateReplyRequest))
     }
 
 
