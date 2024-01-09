@@ -18,10 +18,7 @@ class PostServiceImpl(
     override fun createPost(request: CreatePostRequest): PostResponse {
         val post = postRepository.save(request.toPost())
         return PostResponse.toPostResponse(post)
-
-
     }
-
 
 
     override fun getPostById(postId: Long): PostWithReplyResponse {
@@ -32,11 +29,16 @@ class PostServiceImpl(
         return PostWithReplyResponse.toPostWithReplyResponse(post)
     }
 
+
     override fun updatePost(request: UpdatePostRequest): PostResponse {
         val savedpost = postRepository.save(request.post())
-
         return PostResponse.toPostResponse(savedpost)
-
-
     }
+
+
+    override fun deletePost(postId: Long) {
+        postRepository.deleteById(postId)
+    }
+
+
 }
