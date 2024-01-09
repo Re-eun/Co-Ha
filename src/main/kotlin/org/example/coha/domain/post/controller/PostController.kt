@@ -53,7 +53,7 @@ class PostController(
     }
 
 
-    @DeleteMapping("/{postId")
+    @DeleteMapping("/{postId}")
     fun deletePost(@PathVariable postId: Long): ResponseEntity<Unit> {
         postService.deletePost(postId)
         return ResponseEntity
