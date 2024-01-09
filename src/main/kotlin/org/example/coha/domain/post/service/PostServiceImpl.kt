@@ -8,6 +8,7 @@ import org.example.coha.domain.post.dto.UpdatePostRequest
 import org.example.coha.domain.post.repository.PostRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 
 @Service
@@ -36,6 +37,7 @@ class PostServiceImpl(
         return PostWithReplyResponse.toPostWithReplyResponse(post)
     }
 
+    @Transactional
     override fun updatePost(request: UpdatePostRequest): PostResponse {
         val savedpost = postRepository.save(request.post())
 
