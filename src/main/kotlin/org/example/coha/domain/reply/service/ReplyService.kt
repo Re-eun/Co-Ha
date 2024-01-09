@@ -7,4 +7,6 @@ interface ReplyService {
 
 
     fun updateReply(postId: Long, replyId: Long, request: UpdateReplyRequest): ReplyResponse
+
+    fun deleteReply(postId: Long, replyId: Long)
 }
