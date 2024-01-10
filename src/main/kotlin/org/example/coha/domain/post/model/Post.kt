@@ -20,6 +20,9 @@ class Post(
     @Column(name = "name")
     var name: String,
 
+    @Column(name = "image_path") // 이미지 경로 추가
+    var imagePath: String? = null,
+
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
     val replies: MutableList<Reply> = mutableListOf()
 ) {

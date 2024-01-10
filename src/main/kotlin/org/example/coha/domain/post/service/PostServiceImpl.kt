@@ -5,19 +5,27 @@ import org.example.coha.domain.post.dto.CreatePostRequest
 import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.post.dto.PostWithReplyResponse
 import org.example.coha.domain.post.dto.UpdatePostRequest
+import org.example.coha.domain.post.model.Post
 import org.example.coha.domain.post.repository.PostRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.multipart.MultipartFile
 
 
 @Service
 class PostServiceImpl(
-    private val postRepository: PostRepository
+    private val postRepository: PostRepository,
+    private val fileStorageService: FileStorageService
 ): PostService {
 
-    override fun createPost(request: CreatePostRequest): PostResponse {
-        val post = postRepository.save(request.toPost())
+    // 이미지 업로드 및 게시글 생성
+    override fun createPost(request: CreatePostRequest, image: MultipartFile?): PostResponse {
+        //이미지 저장 및 경로 획득
+        //val imagePath = request.image?.let {fileStorageService.storeFile(it)}
+
+        //Post 객체 생성 및 저장
+        val post = postRepository.save(request.toPost("imagePath"))
         return PostResponse.toPostResponse(post)
 
 
@@ -48,6 +56,16 @@ class PostServiceImpl(
     @Transactional
     override fun deletePost(postId: Long) {
         postRepository.deleteById(postId)
+    }
+
+    //CreatePostRequest 확장함수에 이미지 처리 로직 추가
+    private fun CreatePostRequest.toPost(imagePath: String?): Post {
+        return Post(
+                title = this.title,
+                name = this.name,
+                content = this.content,
+                imagePath = imagePath
+        )
     }
 
 }
