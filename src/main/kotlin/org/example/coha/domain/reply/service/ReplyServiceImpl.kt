@@ -54,8 +54,7 @@ class ReplyServiceImpl(
 
 
     @Transactional
-    override fun deleteReply(postId: Long, replyId: Long) {
-        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
+    override fun deleteReply(replyId: Long) {
         val reply = replyRepository.findByIdOrNull(replyId) ?: throw ModelNotFoundException("Reply", replyId)
         replyRepository.deleteById(replyId)
     }

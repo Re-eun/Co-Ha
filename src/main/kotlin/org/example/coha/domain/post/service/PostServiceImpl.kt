@@ -68,6 +68,7 @@ class PostServiceImpl(
                 title = this.title,
                 name = this.name,
                 content = this.content,
+                view = 0,
                 imagePath = imagePath
         )
     }

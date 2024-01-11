@@ -19,17 +19,15 @@ class PostController(
 
     @PostMapping
     fun createPost(
-            @RequestPart createPostRequest: CreatePostRequest
-    ): ResponseEntity<PostResponse> {
-        return  ResponseEntity.status(HttpStatus.CREATED).body(postService.createPost(createPostRequest, createPostRequest.image))
-    }
-
-    @PostMapping("/test")
-    fun createPost2(
-            @RequestPart image: MultipartFile?
+            @RequestPart data: CreatePostRequest,
+            @RequestPart("image") image: MultipartFile?
     ): ResponseEntity<Boolean> {
+
+        // 저장하는 서비스를 호출함
+
         return  ResponseEntity.status(HttpStatus.CREATED).body(true)
     }
+
 
 
     @PutMapping("/{postId}")
