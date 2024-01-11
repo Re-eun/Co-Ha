@@ -39,8 +39,6 @@ class ReplyServiceImpl(
 
     @Transactional
     override fun updateReply(postId: Long, replyId: Long, request: UpdateReplyRequest): ReplyResponse {
-        // id에 해당하는 게시글의 댓글을 불러와서 request 로 업데이트 후 DB에 저장, replyresponse로 변환 후 반환
-        // id에 해당하는 게시글 또는 댓글이 없다면 throw ModelNotFoundException
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
         val reply = replyRepository.findByIdOrNull(replyId) ?: throw ModelNotFoundException("Reply", replyId)
 
@@ -54,9 +52,10 @@ class ReplyServiceImpl(
 
 
     @Transactional
-    override fun deleteReply(replyId: Long) {
+    override fun deleteReply(postId: Long, replyId: Long) {
+        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
         val reply = replyRepository.findByIdOrNull(replyId) ?: throw ModelNotFoundException("Reply", replyId)
-        replyRepository.deleteById(replyId)
+        replyRepository.delete(reply)
     }
 
 }
