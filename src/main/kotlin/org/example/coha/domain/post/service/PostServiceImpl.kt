@@ -38,9 +38,9 @@ class PostServiceImpl(
     }
 
     @Transactional
-    override fun updatePost(request: UpdatePostRequest): PostResponse {
-        val savedpost = postRepository.findByIdOrNull(request.id) ?: throw ModelNotFoundException("Post", request.id)
-        savedpost.content = request.content
+    override fun updatePost(postId: UpdatePostRequest): PostResponse {
+        val savedpost = postRepository.findByIdOrNull(postId.id) ?: throw ModelNotFoundException("Post", postId.id)
+        savedpost.content = postId.content
         return PostResponse.toPostResponse(savedpost)
     }
 
