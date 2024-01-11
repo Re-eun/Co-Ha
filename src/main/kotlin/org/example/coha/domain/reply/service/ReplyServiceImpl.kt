@@ -21,7 +21,7 @@ class ReplyServiceImpl(
 
     override fun creatReply(createReplyRequest: CreateReplyRequest): ReplyResponse{
         val targetPost = postRepository.findByIdOrNull(createReplyRequest.postId)
-            ?: throw Exception("target post is not found")
+            ?: throw Exception("target todo card is not found")
 
         val reply = Reply(
             name = createReplyRequest.name,
