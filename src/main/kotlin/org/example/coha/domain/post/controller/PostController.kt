@@ -8,6 +8,7 @@ import org.example.coha.domain.post.dto.UpdatePostRequest
 import org.example.coha.domain.post.service.PostService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @Tag(name = "게시판")
@@ -17,6 +18,7 @@ class PostController(
     private val postService: PostService
 ) {
 
+    @PreAuthorize("hasAuthority('USER')")
     @PostMapping
     fun createPost(
         @RequestBody createPostRequest: CreatePostRequest
@@ -25,6 +27,7 @@ class PostController(
     }
 
 
+    @PreAuthorize("hasAuthority('USER')")
     @PutMapping("/{postId}")
     fun updatePost(
         @PathVariable postId: Long,
@@ -59,6 +62,7 @@ class PostController(
     }
 
 
+    @PreAuthorize("hasAuthority('USER')")
     @DeleteMapping("/{postId}")
     fun deletePost(@PathVariable postId: Long): ResponseEntity<String> {
         postService.deletePost(postId)

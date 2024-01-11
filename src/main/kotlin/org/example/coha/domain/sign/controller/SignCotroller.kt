@@ -1,5 +1,6 @@
 package org.example.coha.domain.sign.controller
 
+import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.example.coha.domain.sign.dto.SignInRequest
 import org.example.coha.domain.sign.dto.SignUpRequest
@@ -16,16 +17,14 @@ class SignController(
     private val signService: SignService
 ) {
 
+    @Operation(summary = "회원 가입")
     @PostMapping("/signup")
     fun signUp(@RequestBody request: SignUpRequest) =
         signService.registerMember(request)
 
+    @Operation(summary = "로그인")
     @PostMapping("/login")
     fun login(@RequestBody request: SignInRequest) =
         signService.signin(request)
 
-
-//    @Operation(summary = "로그인")
-//    @PostMapping("/sign-in")
-//    fun signIn(@RequestBody request: SignInRequest) = ApiResponse.success(signService.signIn(request))
 }

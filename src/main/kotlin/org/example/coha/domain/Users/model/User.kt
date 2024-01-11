@@ -1,6 +1,7 @@
 package org.example.coha.domain.Users.model
 
 import jakarta.persistence.*
+import org.example.coha.domain.common.UserType
 import org.example.coha.domain.sign.dto.SignUpRequest
 import org.springframework.security.crypto.password.PasswordEncoder
 
@@ -15,7 +16,11 @@ class User(
     var userPassword: String,
 
     @Column(name = "email")
-    var email: String
+    var email: String,
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    val type: UserType = UserType.USER,
 ) {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null

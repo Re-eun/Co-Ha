@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.User
 import org.springframework.security.web.authentication.WebAuthenticationDetails
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
@@ -27,7 +28,7 @@ class JwtAuthenticationFilter(
         val token = parseBearerToken(request)
         val user = parseUserSpecification(token)
         UsernamePasswordAuthenticationToken.authenticated(user, token, user.authorities)
-            .apply { details = WebAuthenticationDetails(request) }
+            .apply { details = WebAuthenticationDetails(request) } // 요청날린 client 또는 프록시의 ip 주소와 세션 id 저장
             .also { SecurityContextHolder.getContext().authentication = it }
         filterChain.doFilter(request, response)
         }
@@ -40,8 +41,8 @@ class JwtAuthenticationFilter(
 
     private fun parseUserSpecification(token: String?) = (
             token?.takeIf { it.length >= 10 }
-                ?.let { tokenProvider.validateTokenAndGetSubject(it) }
-                ?: "anonymous:anonymous"
+                ?.let { tokenProvider.validateTokenAndGetSubject(it) } // 토큰 복호화
+                ?: "anonymous:anonymous" // 너무 짧을 때는 익명
             ).split(":")
         .let { User(it[0], "", listOf(SimpleGrantedAuthority(it[1]))) }
 }

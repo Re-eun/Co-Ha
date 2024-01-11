@@ -7,6 +7,7 @@ import org.example.coha.domain.reply.dto.UpdateReplyRequest
 import org.example.coha.domain.reply.service.ReplyService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @Tag(name = "댓글 관리")
@@ -16,6 +17,7 @@ class ReplyController(
     private val replyService: ReplyService
 ) {
 
+    @PreAuthorize("hasAuthority('USER')")
     @PostMapping
     fun creatReply(
         @RequestBody createReplyRequest: CreateReplyRequest,
@@ -28,7 +30,7 @@ class ReplyController(
     }
 
 
-
+    @PreAuthorize("hasAuthority('USER')")
     @PutMapping("/{replyId}")
     fun updateReply(@PathVariable postId: Long,
                     @PathVariable replyId: Long,
@@ -41,6 +43,7 @@ class ReplyController(
 
 
 
+    @PreAuthorize("hasAuthority('USER')")
     @DeleteMapping("/{replyId}")
     fun deleteReply(@PathVariable postId: Long,
                     @PathVariable replyId: Long): ResponseEntity<String> {
