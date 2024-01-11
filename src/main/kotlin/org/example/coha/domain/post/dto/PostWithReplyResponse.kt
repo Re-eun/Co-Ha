@@ -9,7 +9,8 @@ class PostWithReplyResponse(
     val content: String,
     val name: String,
     val createdAt: String,
-    val replies: List<ReplyResponse>
+    val replies: List<ReplyResponse>,
+    val view: Int
 ) {
     companion object {
         fun toPostWithReplyResponse(post: Post): PostWithReplyResponse {
@@ -19,7 +20,9 @@ class PostWithReplyResponse(
                 content = post.content,
                 name = post.name,
                 createdAt = post.createdAt,
-                replies = post.replies.map { ReplyResponse.toReplyResponse(it) }
+                view = post.view,
+                replies = post.replies.map { ReplyResponse.toReplyResponse(it) },
+
             )
         }
     }

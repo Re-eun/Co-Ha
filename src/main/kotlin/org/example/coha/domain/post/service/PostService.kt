@@ -4,6 +4,7 @@ import org.example.coha.domain.post.dto.CreatePostRequest
 import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.post.dto.PostWithReplyResponse
 import org.example.coha.domain.post.dto.UpdatePostRequest
+import org.example.coha.domain.post.model.Post
 import org.springframework.web.multipart.MultipartFile
 
 
@@ -15,9 +16,14 @@ interface PostService {
 
     fun getPostById(postId: Long): PostWithReplyResponse
 
-    fun updatePost(request: UpdatePostRequest): PostResponse
+    fun updatePost(postId: UpdatePostRequest): PostResponse
 
     fun deletePost(postId: Long)
 
+    fun updateViews(postId: Long)
+
+
+
 
 }
+

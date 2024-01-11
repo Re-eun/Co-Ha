@@ -46,9 +46,9 @@ class PostServiceImpl(
     }
 
     @Transactional
-    override fun updatePost(request: UpdatePostRequest): PostResponse {
-        val savedpost = postRepository.save(request.post())
-
+    override fun updatePost(postId: UpdatePostRequest): PostResponse {
+        val savedpost = postRepository.findByIdOrNull(postId.id) ?: throw ModelNotFoundException("Post", postId.id)
+        savedpost.content = postId.content
         return PostResponse.toPostResponse(savedpost)
     }
 
@@ -56,6 +56,10 @@ class PostServiceImpl(
     @Transactional
     override fun deletePost(postId: Long) {
         postRepository.deleteById(postId)
+    }
+    @Transactional
+    override fun updateViews(postId: Long) {
+        postRepository.updateViews(postId)
     }
 
     //CreatePostRequest 확장함수에 이미지 처리 로직 추가

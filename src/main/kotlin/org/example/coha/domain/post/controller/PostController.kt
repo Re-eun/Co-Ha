@@ -7,6 +7,7 @@ import org.example.coha.domain.post.dto.UpdatePostRequest
 import org.example.coha.domain.post.service.PostService
 import org.springframework.http.ResponseEntity
 import org.springframework.http.HttpStatus
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
@@ -33,14 +34,14 @@ class PostController(
 
     @PutMapping("/{postId}")
     fun updatePost(
-            @PathVariable postId: Long,
-            @RequestBody postRequest: UpdatePostRequest,
+        @PathVariable postId: Long,
+        @RequestBody updatePostRequest: UpdatePostRequest,
     ): ResponseEntity<PostResponse>{
         val request = UpdatePostRequest(
-                id = postId,
-                title = postRequest.title,
-                content = postRequest.content,
-                name = postRequest.name
+
+            id = postId,
+            content = updatePostRequest.content,
+
 
         )
         val post: PostResponse = postService.updatePost(request)
@@ -58,8 +59,9 @@ class PostController(
 
     @GetMapping("/{postId}")
     fun getPostById(
-            @PathVariable postId: Long
+        @PathVariable postId: Long
     ): ResponseEntity<PostWithReplyResponse> {
+        postService.updateViews(postId)
         return ResponseEntity.status(HttpStatus.OK).body(postService.getPostById(postId))
 
     }
@@ -71,7 +73,7 @@ class PostController(
         val deletePostSuccessMessage = "게시글이 성공적으로 삭제되었습니다."
 
         return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
+                .status(HttpStatus.OK)
                 .body(deletePostSuccessMessage)
     }
 
@@ -79,3 +81,5 @@ class PostController(
 
 
 }
+
+

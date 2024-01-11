@@ -3,18 +3,22 @@ package org.example.coha.domain.post.dto
 import org.example.coha.domain.post.model.Post
 
 data class UpdatePostRequest(
+
     val id: Long?,
-    val title: String,
     val content: String,
-    val name: String,
+
+
+
 ) {
 
-    fun post(): Post{
-        return  Post(
-            id = id,
-            title = title,
+    fun post(): Updatepost{
+        return  Updatepost(
             content = content,
-            name = name
-        )
+
+                    )
+    }
+
+    class Updatepost(content: String, ) {
+
     }
 }

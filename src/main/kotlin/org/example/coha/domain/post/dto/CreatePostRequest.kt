@@ -14,6 +14,7 @@ data class CreatePostRequest(
             title = title,
             name = name,
             content = content,
+            view = 0,
             imagePath = imagePath
         )
     }
