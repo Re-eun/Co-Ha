@@ -21,7 +21,11 @@ class Post(
     var name: String,
 
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
-    val replies: MutableList<Reply> = mutableListOf()
+    val replies: MutableList<Reply> = mutableListOf(),
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    var post: Post
 ) {
 
     @Column(name = "created_at")

@@ -21,6 +21,9 @@ class User(
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     val type: UserType = UserType.USER,
+
+
+
 ) {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
