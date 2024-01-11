@@ -1,4 +1,4 @@
-package org.example.coha.domain.sign
+package org.example.coha.domain.sign.dto
 
 class SignUpRequest(
     val email: String,

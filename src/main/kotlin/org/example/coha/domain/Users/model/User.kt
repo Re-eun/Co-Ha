@@ -1,7 +1,7 @@
 package org.example.coha.domain.Users.model
 
 import jakarta.persistence.*
-import org.example.coha.domain.sign.SignUpRequest
+import org.example.coha.domain.sign.dto.SignUpRequest
 import org.springframework.security.crypto.password.PasswordEncoder
 
 @Entity

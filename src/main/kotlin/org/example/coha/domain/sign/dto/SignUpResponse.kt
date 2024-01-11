@@ -1,4 +1,4 @@
-package org.example.coha.domain.sign
+package org.example.coha.domain.sign.dto
 
 import org.example.coha.domain.Users.model.User
 
@@ -8,7 +8,7 @@ data class SignUpResponse(
     val name: String,
 ) {
     companion object {
-        fun from(user: User) = SignUpResponse(
+        fun toSignUpResponse(user: User) = SignUpResponse(
             id = user.id!!,
             email = user.email,
             name = user.name,

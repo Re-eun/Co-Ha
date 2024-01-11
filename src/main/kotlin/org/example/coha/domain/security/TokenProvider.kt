@@ -20,6 +20,7 @@ class TokenProvider(
     @Value("\${issuer}")
     private val issuer: String
 ) {
+    // user 고유 정보로 토큰 생성
     fun createToken(userSpecification: String) = Jwts.builder()
         .signWith(io.jsonwebtoken.SignatureAlgorithm.HS256, secretKey)
         .setSubject(userSpecification)
@@ -29,19 +30,13 @@ class TokenProvider(
         .compact()!!
 
 
-//    fun createToken1(userSpecification: String) = Jwts.builder()
-//        .signWith(SecretKeySpec(secretKey.toByteArray(), SignatureAlgorithm.HS512.jcaName)) // HS512 알고리즘을 사용하여 secretKey를 이용해 서명
-//        .setSubject(userSpecification)   // JWT 토큰 제목
-//        .setIssuer(issuer)    // JWT 토큰 발급자
-//        .setIssuedAt(Timestamp.valueOf(LocalDateTime.now()))    // JWT 토큰 발급 시간
-//        .setExpiration(Date.from(Instant.now().plus(expirationHours, ChronoUnit.HOURS)))    // JWT 토큰의 만료시간 설정
-//        .compact()!!    // JWT 토큰 생성
+    // 토큰의 subject 를 복호화하여 문자열 형태로 반환
+    fun validateTokenAndGetSubject(token: String): String? = Jwts.parserBuilder()
+        .setSigningKey(secretKey.toByteArray())
+        .build()
+        .parseClaimsJws(token)
+        .body
+        .subject
 
 
-//    fun validateTokenAndGetSubject(token: String?): String? = Jwts.builder()parserBuilder()
-//        .setSigningKey(secretKey.toByteArray())
-//        .build()
-//        .parseClaimsJws(token)
-//        .body
-//        .subject
 }

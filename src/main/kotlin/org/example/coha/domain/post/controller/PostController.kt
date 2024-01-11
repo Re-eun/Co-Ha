@@ -1,14 +1,16 @@
 package org.example.coha.domain.post.controller
 
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.example.coha.domain.post.dto.CreatePostRequest
 import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.post.dto.PostWithReplyResponse
 import org.example.coha.domain.post.dto.UpdatePostRequest
 import org.example.coha.domain.post.service.PostService
-import org.springframework.http.ResponseEntity
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+@Tag(name = "게시판")
 @RequestMapping("/posts")
 @RestController
 class PostController(

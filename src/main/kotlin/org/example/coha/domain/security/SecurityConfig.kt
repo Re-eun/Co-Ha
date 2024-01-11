@@ -10,14 +10,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @Configuration
 class SecurityConfig {
-    private val allowedUrls = arrayOf("/", "/swagger-ui/**", "/v3/**", "/sign-up", "/sign-in")
+    private val allowedUrls = arrayOf("/", "/swagger-ui/**", "/v3/**", "/signup", "/login")
     @Bean
     fun filterChain(http: HttpSecurity) = http
-        .csrf { obj: CsrfConfigurer<HttpSecurity> -> obj.disable() } // 공격 방지위해서는 활성화해야 함//
-        // .headers { it.frameOptions().sameOrigin() }	// H2 콘솔 사용을 위한 설정
+        .csrf { obj: CsrfConfigurer<HttpSecurity> -> obj.disable() } // 공격 방지위해서는 활성화해야 함
         .authorizeHttpRequests {
-            it.requestMatchers(*allowedUrls).permitAll()	// requestMatchers의 인자로 전달된 url은 모두에게 허용
-//                .requestMatchers(PathRequest.toH2Console()).permitAll()	// H2 콘솔 접속은 모두에게 허용
+            it.requestMatchers(*allowedUrls).permitAll()	// requestMatchers의 인자로 전달된 url을 모두에게 허용
                 .anyRequest().authenticated()	// 그 외의 모든 요청은 인증 필요
         }
         .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }	// 세션을 사용하지 않으므로 STATELESS 설정
