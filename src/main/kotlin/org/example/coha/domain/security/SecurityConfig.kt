@@ -15,9 +15,11 @@ class SecurityConfig(
     private val jwtAuthenticationFilter: JwtAuthenticationFilter
 ) {
     private val allowedUrls = arrayOf("/", "/swagger-ui/**", "/v3/**", "/signup", "/login")
+
     @Bean
     fun filterChain(http: HttpSecurity) = http
         .csrf { obj: CsrfConfigurer<HttpSecurity> -> obj.disable() } // 공격 방지위해서는 활성화해야 함
+//        .headers() {it.frameOptions().sameOrigin()}
         .authorizeHttpRequests {
             it.requestMatchers(*allowedUrls).permitAll()	// requestMatchers의 인자로 전달된 url을 모두에게 허용
                 .anyRequest().authenticated()	// 그 외의 모든 요청은 인증 필요
@@ -32,6 +34,8 @@ class SecurityConfig(
     @Bean
     fun bCryptPasswordEncoder(): BCryptPasswordEncoder =
         BCryptPasswordEncoder() // 해시 함수를 사용하여 패스워드를 저장하고 검증하는데 사용되는 PasswordEncoder 의 구현체
+
+
 
 
 }

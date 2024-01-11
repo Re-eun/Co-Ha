@@ -22,7 +22,7 @@ class TokenProvider(
 ) {
     // user 고유 정보로 토큰 생성
     fun createToken(userSpecification: String) = Jwts.builder()
-        .signWith(io.jsonwebtoken.SignatureAlgorithm.HS256, secretKey)
+        .signWith(io.jsonwebtoken.SignatureAlgorithm.HS256, Base64.getEncoder().encodeToString(secretKey.toByteArray()))
         .setSubject(userSpecification)
         .setIssuer(issuer)
         .setIssuedAt(Timestamp.valueOf(LocalDateTime.now()))

@@ -19,6 +19,22 @@ class JwtAuthenticationFilter(
     private val tokenProvider: TokenProvider
 ): OncePerRequestFilter() {
 
+
+    private fun parseBearerToken(request: HttpServletRequest)
+    = request
+        .getHeader(HttpHeaders.AUTHORIZATION) // http 요청의 헤더에서 authorizarion 값을 찾아서
+        .takeIf { it?.startsWith("Bearer ", true) ?: false } // 접두어 확인, 제외하고 파싱
+        ?.substring(7)
+
+
+    private fun parseUserSpecification(token: String?) = (
+            token?.takeIf { it.length >= 10 }
+                ?.let { tokenProvider.validateTokenAndGetSubject(it) } // 토큰 복호화
+                ?: "anonymous:anonymous" // 너무 짧을 때는 익명
+            ).split(":")
+        .let { User(it[0], "", listOf(SimpleGrantedAuthority(it[1]))) } // 유저아이디, ""(비밀번호), 타입 가져와서 객체 생성
+
+
     // 인증 정보 설정
     override fun doFilterInternal(
         request: HttpServletRequest,
@@ -31,18 +47,6 @@ class JwtAuthenticationFilter(
             .apply { details = WebAuthenticationDetails(request) } // 요청날린 client 또는 프록시의 ip 주소와 세션 id 저장
             .also { SecurityContextHolder.getContext().authentication = it }
         filterChain.doFilter(request, response)
-        }
+    }
 
-    private fun parseBearerToken(request: HttpServletRequest)
-    = request
-        .getHeader(HttpHeaders.AUTHORIZATION) // http 요청의 헤더에서 authorizarion 값을 찾아서
-        .takeIf { it?.startsWith("Bearer ", true) ?: false } // 접두어 확인, 제외하고 파싱
-        ?.substring(7)
-
-    private fun parseUserSpecification(token: String?) = (
-            token?.takeIf { it.length >= 10 }
-                ?.let { tokenProvider.validateTokenAndGetSubject(it) } // 토큰 복호화
-                ?: "anonymous:anonymous" // 너무 짧을 때는 익명
-            ).split(":")
-        .let { User(it[0], "", listOf(SimpleGrantedAuthority(it[1]))) }
 }

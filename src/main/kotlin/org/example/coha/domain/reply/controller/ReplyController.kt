@@ -42,7 +42,6 @@ class ReplyController(
     }
 
 
-
     @PreAuthorize("hasAuthority('USER')")
     @DeleteMapping("/{replyId}")
     fun deleteReply(@PathVariable postId: Long,

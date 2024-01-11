@@ -22,6 +22,7 @@ class User(
     @Column(name = "type")
     val type: UserType = UserType.USER,
 ) {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
@@ -34,5 +35,31 @@ class User(
         )
     }
 
-
+//    override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
+//        return list.Of(SimpleGrantedAuthority("USER"))
+//    }
+//
+//    override fun getPassword(): String {
+//        return userPassword
+//    }
+//
+//    override fun getUsername(): String {
+//        return email
+//    }
+//
+//    override fun isAccountNonExpired(): Boolean {
+//        return true
+//    }
+//
+//    override fun isAccountNonLocked(): Boolean {
+//        return true
+//    }
+//
+//    override fun isCredentialsNonExpired(): Boolean {
+//        return true
+//    }
+//
+//    override fun isEnabled(): Boolean {
+//        return true
+//    }
 }

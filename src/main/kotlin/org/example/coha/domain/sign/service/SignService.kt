@@ -33,7 +33,7 @@ class SignService(
         val user = userRepository.findByEmail(request.email).takeIf { encoder.matches(request.password, it.userPassword) }
             ?: throw MisMatchedExcpetion(request.email)
 
-        val token = tokenProvider.createToken(user.email)
+        val token = tokenProvider.createToken("${user.email}:${user.type}")
         return SignInResponse(user.email, token)
     }
 
