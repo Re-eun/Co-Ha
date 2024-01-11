@@ -18,10 +18,16 @@ class PostController(
 
     @PostMapping
     fun createPost(
-            @RequestBody createPostRequest: CreatePostRequest,
-            @RequestPart image: MultipartFile?
+            @RequestPart createPostRequest: CreatePostRequest
     ): ResponseEntity<PostResponse> {
-        return  ResponseEntity.status(HttpStatus.CREATED).body(postService.createPost(createPostRequest, image))
+        return  ResponseEntity.status(HttpStatus.CREATED).body(postService.createPost(createPostRequest, createPostRequest.image))
+    }
+
+    @PostMapping("/test")
+    fun createPost2(
+            @RequestPart image: MultipartFile?
+    ): ResponseEntity<Boolean> {
+        return  ResponseEntity.status(HttpStatus.CREATED).body(true)
     }
 
 
