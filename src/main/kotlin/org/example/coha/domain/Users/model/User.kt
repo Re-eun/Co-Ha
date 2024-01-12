@@ -23,9 +23,6 @@ class User(
     val type: UserType = UserType.USER,
 
 
-
-
-
 ) {
 
     @Id
