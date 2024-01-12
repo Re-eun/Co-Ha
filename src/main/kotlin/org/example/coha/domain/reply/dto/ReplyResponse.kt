@@ -9,7 +9,7 @@ class ReplyResponse(
     var content: String,
     var createdAt: String,
     var cardId: Long,
-//    var author: String
+    var author: String
 ) {
     companion object {
         fun toReplyResponse(reply: Reply): ReplyResponse {
@@ -18,7 +18,8 @@ class ReplyResponse(
                 name = reply.name,
                 content = reply.content,
                 createdAt = reply.createdAt,
-                cardId = reply.post.id ?: throw ModelNotFoundException("Post", reply.post.id)
+                cardId = reply.post.id ?: throw ModelNotFoundException("Post", reply.post.id),
+                author = reply.author
             )
         }
     }

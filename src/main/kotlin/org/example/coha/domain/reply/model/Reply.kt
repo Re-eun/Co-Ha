@@ -19,8 +19,8 @@ class Reply(
     @JoinColumn(name = "post_id")
     var post: Post,
 
-//    @Column(name = "author")
-//    var author: String
+    @Column(name = "author")
+    var author: String
 
 ) {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
