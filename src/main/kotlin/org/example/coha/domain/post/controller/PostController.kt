@@ -7,7 +7,6 @@ import org.example.coha.domain.post.dto.UpdatePostRequest
 import org.example.coha.domain.post.service.PostService
 import org.springframework.http.ResponseEntity
 import org.springframework.http.HttpStatus
-import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/posts")
@@ -29,14 +28,8 @@ class PostController(
         @PathVariable postId: Long,
         @RequestBody updatePostRequest: UpdatePostRequest,
     ): ResponseEntity<PostResponse>{
-        val request = UpdatePostRequest(
 
-            id = postId,
-            content = updatePostRequest.content,
-
-
-        )
-        val post: PostResponse = postService.updatePost(request)
+        val post: PostResponse = postService.updatePost(postId)
 
         return ResponseEntity
             .status(HttpStatus.OK)

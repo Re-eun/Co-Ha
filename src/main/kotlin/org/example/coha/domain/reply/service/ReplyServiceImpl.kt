@@ -38,9 +38,9 @@ class ReplyServiceImpl(
 
 
     @Transactional
-    override fun updateReply(postId: Long, replyId: Long, request: UpdateReplyRequest): ReplyResponse {
-        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
+    override fun updateReply(replyId: Long, request: UpdateReplyRequest): ReplyResponse {
         val reply = replyRepository.findByIdOrNull(replyId) ?: throw ModelNotFoundException("Reply", replyId)
+
 
         reply.content = request.content
 
@@ -50,7 +50,7 @@ class ReplyServiceImpl(
 
 
     @Transactional
-    override fun deleteReply(postId: Long, replyId: Long) {
+    override fun deleteReply(replyId: Long) {
         val reply = replyRepository.findByIdOrNull(replyId) ?: throw ModelNotFoundException("Reply", replyId)
         replyRepository.delete(reply)
     }

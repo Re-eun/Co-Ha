@@ -40,7 +40,7 @@ class ReplyController(
     ): ResponseEntity<ReplyResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(replyService.updateReply(postId, replyId, updateReplyRequest))
+            .body(replyService.updateReply(replyId, updateReplyRequest))
     }
 
 
@@ -48,7 +48,7 @@ class ReplyController(
     @DeleteMapping("/{replyId}")
     fun deleteReply(@PathVariable postId: Long,
                     @PathVariable replyId: Long): ResponseEntity<String> {
-        replyService.deleteReply (postId, replyId)
+        replyService.deleteReply (replyId)
         val deleteReplySuccessMessage = "댓글이 성공적으로 삭제되었습니다."
 
         return ResponseEntity
