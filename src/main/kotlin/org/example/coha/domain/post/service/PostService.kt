@@ -5,6 +5,8 @@ import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.post.dto.PostWithReplyResponse
 import org.example.coha.domain.post.dto.UpdatePostRequest
 import org.example.coha.domain.post.model.Post
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable
 
 
 interface PostService {

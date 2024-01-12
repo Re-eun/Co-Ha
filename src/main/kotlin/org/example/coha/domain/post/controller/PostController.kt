@@ -48,6 +48,7 @@ class PostController(
 
     @GetMapping
     fun getAllPostList(): ResponseEntity<List<PostResponse>> {
+
         return ResponseEntity.status(HttpStatus.OK).body(postService.getAllPostList())
     }
 
@@ -56,7 +57,8 @@ class PostController(
         @PathVariable postId: Long
     ): ResponseEntity<PostWithReplyResponse> {
         postService.updateViews(postId)
-        return ResponseEntity.status(HttpStatus.OK).body(postService.getPostById(postId))
+        val updatePost = postService.getPostById(postId)
+        return ResponseEntity.status(HttpStatus.OK).body(updatePost)
 
     }
 

@@ -28,7 +28,7 @@ class ReplyController(
 
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(replyService.creatReply(createReplyRequest))
+            .body(result)
     }
 
 

@@ -7,6 +7,7 @@ import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.post.dto.PostWithReplyResponse
 import org.example.coha.domain.post.dto.UpdatePostRequest
 import org.example.coha.domain.post.repository.PostRepository
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
@@ -29,6 +30,7 @@ class PostServiceImpl(
     }
 
     override fun getAllPostList(): List<PostResponse> {
+
         return postRepository.findAll().map { PostResponse.toPostResponse(it) }
 
     }
@@ -60,7 +62,7 @@ class PostServiceImpl(
 
     @Transactional
     override fun updateViews(postId: Long) {
-        postRepository.updateViews(postId)
+        postRepository.updateViews(postId)// postRepository에 updateViews 기능을 활성화
     }
 
 }

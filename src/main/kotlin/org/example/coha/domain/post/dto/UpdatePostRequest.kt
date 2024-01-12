@@ -6,8 +6,8 @@ data class UpdatePostRequest(
 
     val content: String?,
     val title: String?
-) {
+)
 
 
-}
+
 
