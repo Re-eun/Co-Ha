@@ -21,6 +21,9 @@ class Post(
     @Column(name = "name")
     var name: String,
 
+    @Column(name = "view")
+    var view: Int,
+
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
     val replies: MutableList<Reply> = mutableListOf(),
 

@@ -19,9 +19,13 @@ class ReplyServiceImpl(
     private val postRepository: PostRepository
 ): ReplyService {
 
+
     // 댓글 작성
+
+    @Transactional
     override fun creatReply(createReplyRequest: CreateReplyRequest): ReplyResponse{
-        val targetPost = postRepository.findByIdOrNull(createReplyRequest.postId) ?: throw ModelNotFoundException("Post", createReplyRequest.postId)
+        val targetPost = postRepository.findByIdOrNull(createReplyRequest.postId)
+            ?: throw Exception("target post is not found")
 
         val currentUser = SecurityContextHolder.getContext().authentication.name
 
@@ -53,10 +57,12 @@ class ReplyServiceImpl(
 
     // 댓글 삭제
     @Transactional
+
     override fun deleteReply(replyId: Long) {
         val reply = replyRepository.findByIdOrNull(replyId) ?: throw ModelNotFoundException("Reply", replyId)
         val currentUser = SecurityContextHolder.getContext().authentication.name
         if(reply.author != currentUser) throw UnauthorizedAccess()
+
         replyRepository.delete(reply)
     }
 

@@ -4,6 +4,7 @@ import org.example.coha.domain.post.dto.CreatePostRequest
 import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.post.dto.PostWithReplyResponse
 import org.example.coha.domain.post.dto.UpdatePostRequest
+import org.example.coha.domain.post.model.Post
 
 
 interface PostService {
@@ -14,7 +15,14 @@ interface PostService {
 
     fun getPostById(postId: Long): PostWithReplyResponse
 
+
     fun updatePost(postId: Long, request: UpdatePostRequest): PostResponse
 
+
     fun deletePost(postId: Long)
+
+    fun updateViews(postId: Long)
+
+
 }
+
