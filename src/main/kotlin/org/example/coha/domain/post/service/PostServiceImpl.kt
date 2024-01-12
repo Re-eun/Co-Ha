@@ -17,23 +17,20 @@ import org.springframework.web.multipart.MultipartFile
 
 @Service
 class PostServiceImpl(
-    private val postRepository: PostRepository
+    private val postRepository: PostRepository,
+    private val fileStorageService: FileStorageService
 ): PostService {
 
     @Transactional
-    override fun createPost(request: CreatePostRequest): PostResponse {
+    override fun createPost(request: CreatePostRequest, image:MultipartFile?): PostResponse {
         val currentUser = SecurityContextHolder.getContext().authentication.name
+        val url = if(image != null) fileStorageService.storeFile(image) else ""
 
-        val post = postRepository.save(request.toPost(currentUser))
-    // 이미지 업로드 및 게시글 생성
-    override fun createPost(request: CreatePostRequest, image: MultipartFile?): PostResponse {
         //이미지 저장 및 경로 획득
         //val imagePath = request.image?.let {fileStorageService.storeFile(it)}
 
-        val url = if( image != null) fileStorageService.storeFile(image) else ""
-
         //Post 객체 생성 및 저장
-        val post = postRepository.save(request.toPost(url))
+        val post = postRepository.save(request.toPost(url, currentUser))
         return PostResponse.toPostResponse(post)
 
 
@@ -78,18 +75,6 @@ class PostServiceImpl(
     }
 
 
-
-
-    //CreatePostRequest 확장함수에 이미지 처리 로직 추가
-    private fun CreatePostRequest.toPost(imagePath: String?): Post {
-        return Post(
-                title = this.title,
-                name = this.name,
-                content = this.content,
-                view = 0,
-                imagePath = imagePath
-        )
-    }
 
 }
 
