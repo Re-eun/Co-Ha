@@ -24,5 +24,9 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorResponse(e.message))
     }
 
+    @ExceptionHandler(UnauthorizedAccess::class)
+    fun handleUnauthorizedAccess(e: UnauthorizedAccess): ResponseEntity<ErrorResponse> {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorResponse(e.message))
+    }
 
 }

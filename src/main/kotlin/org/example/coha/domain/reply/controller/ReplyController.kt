@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
+import java.security.Principal
 
 @Tag(name = "댓글 관리")
 @RequestMapping("/posts/{postId}/replies")
@@ -21,12 +22,12 @@ class ReplyController(
     @PostMapping
     fun creatReply(
         @RequestBody createReplyRequest: CreateReplyRequest,
+        principal: Principal
     ): ResponseEntity<ReplyResponse>{
-        val result = replyService.creatReply(createReplyRequest)
 
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(result)
+            .body(replyService.creatReply(createReplyRequest))
     }
 
 
@@ -36,16 +37,22 @@ class ReplyController(
                     @PathVariable replyId: Long,
                     @RequestBody updateReplyRequest: UpdateReplyRequest
     ): ResponseEntity<ReplyResponse> {
+//        val reply = replyService.getReplyById(replyId)
+//        if(!principal.equals(reply)) throw UnauthorizedAccess()
+        val updateReply = replyService.updateReply(postId, replyId, updateReplyRequest)
+
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(replyService.updateReply(postId, replyId, updateReplyRequest))
+            .body(updateReply)
     }
 
 
     @PreAuthorize("hasAuthority('USER')")
     @DeleteMapping("/{replyId}")
     fun deleteReply(@PathVariable postId: Long,
-                    @PathVariable replyId: Long): ResponseEntity<String> {
+                    @PathVariable replyId: Long
+    ): ResponseEntity<String> {
+
         replyService.deleteReply(postId, replyId)
         val deleteReplySuccessMessage = "댓글이 성공적으로 삭제되었습니다."
 

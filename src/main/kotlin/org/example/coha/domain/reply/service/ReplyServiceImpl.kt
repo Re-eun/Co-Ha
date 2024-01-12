@@ -17,8 +17,7 @@ class ReplyServiceImpl(
     private val postRepository: PostRepository
 ): ReplyService {
 
-
-
+    // 댓글 작성
     override fun creatReply(createReplyRequest: CreateReplyRequest): ReplyResponse{
         val targetPost = postRepository.findByIdOrNull(createReplyRequest.postId) ?: throw ModelNotFoundException("Post", createReplyRequest.postId)
 
@@ -27,7 +26,6 @@ class ReplyServiceImpl(
             content = createReplyRequest.content,
             post = targetPost,
             createdAt = createReplyRequest.createdAt
-
         )
 
         val result = replyRepository.save(reply)
@@ -36,22 +34,29 @@ class ReplyServiceImpl(
     }
 
 
+    // 댓글 수정
     @Transactional
     override fun updateReply(postId: Long, replyId: Long, request: UpdateReplyRequest): ReplyResponse {
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
         val reply = replyRepository.findByIdOrNull(replyId) ?: throw ModelNotFoundException("Reply", replyId)
-
         reply.content = request.content
+//        reply.author = principal.name
 
         return ReplyResponse.toReplyResponse(reply)
     }
 
 
+    // 댓글 삭제
     @Transactional
     override fun deleteReply(postId: Long, replyId: Long) {
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
         val reply = replyRepository.findByIdOrNull(replyId) ?: throw ModelNotFoundException("Reply", replyId)
-        replyRepository.deleteById(replyId)
+        replyRepository.delete(reply)
     }
 
+
+    override fun getReplyById(replyId: Long): Reply {
+        val reply = replyRepository.findByIdOrNull(replyId) ?: throw ModelNotFoundException("Reply", replyId)
+        return reply
+    }
 }

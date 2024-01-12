@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional
 class SignService(
     private val userRepository: UserRepository,
     private val tokenProvider: TokenProvider,
-    private val encoder: PasswordEncoder
+    private val encoder: PasswordEncoder // 암호화해서 저장
 ) {
     @Transactional
     fun registerMember(request: SignUpRequest): SignUpResponse {
@@ -28,7 +28,7 @@ class SignService(
     }
 
     @Transactional
-    fun signin(request: SignInRequest): SignInResponse {
+    fun login(request: SignInRequest): SignInResponse {
 
         val user = userRepository.findByEmail(request.email).takeIf { encoder.matches(request.password, it.userPassword) }
             ?: throw MisMatchedExcpetion(request.email)

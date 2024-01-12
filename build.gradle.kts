@@ -57,6 +57,8 @@ dependencies {
 
     implementation ("javax.xml.bind:jaxb-api:2.3.0")
 
+    implementation("org.springframework.boot:spring-boot-starter-validation") // 유효성 검사
+
 
 
     runtimeOnly("org.postgresql:postgresql")

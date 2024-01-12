@@ -8,7 +8,8 @@ class ReplyResponse(
     var name: String,
     var content: String,
     var createdAt: String,
-    var cardId: Long
+    var cardId: Long,
+//    var author: String
 ) {
     companion object {
         fun toReplyResponse(reply: Reply): ReplyResponse {

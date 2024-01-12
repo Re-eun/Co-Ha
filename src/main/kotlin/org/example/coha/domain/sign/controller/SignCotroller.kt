@@ -25,6 +25,6 @@ class SignController(
     @Operation(summary = "로그인")
     @PostMapping("/login")
     fun login(@RequestBody request: SignInRequest) =
-        signService.signin(request)
+        signService.login(request)
 
 }

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
+
 @Tag(name = "게시판")
 @RequestMapping("/posts")
 @RestController
@@ -21,32 +22,29 @@ class PostController(
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping
     fun createPost(
-        @RequestBody createPostRequest: CreatePostRequest
+        @RequestBody createPostRequest: CreatePostRequest,
     ): ResponseEntity<PostResponse> {
-    return  ResponseEntity.status(HttpStatus.CREATED).body(postService.createPost(createPostRequest))
+    return  ResponseEntity
+        .status(HttpStatus.CREATED)
+        .body(postService.createPost(createPostRequest))
     }
+
 
 
     @PreAuthorize("hasAuthority('USER')")
     @PutMapping("/{postId}")
     fun updatePost(
         @PathVariable postId: Long,
-        @RequestBody postRequest: UpdatePostRequest,
+        @RequestBody postRequest: UpdatePostRequest
     ): ResponseEntity<PostResponse>{
-        val request = UpdatePostRequest(
-            id = postId,
-            title = postRequest.title,
-            content = postRequest.content,
-            name = postRequest.name
 
-        )
-        val post: PostResponse = postService.updatePost(request)
+        val savePost: PostResponse = postService.updatePost(postId, postRequest)
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(post)
-
+            .body(savePost)
     }
+
 
     @GetMapping
     fun getAllPostList(): ResponseEntity<List<PostResponse>> {
@@ -61,10 +59,10 @@ class PostController(
 
     }
 
-
     @PreAuthorize("hasAuthority('USER')")
     @DeleteMapping("/{postId}")
     fun deletePost(@PathVariable postId: Long): ResponseEntity<String> {
+
         postService.deletePost(postId)
         val deletePostSuccessMessage = "게시글이 성공적으로 삭제되었습니다."
 

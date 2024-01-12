@@ -2,6 +2,7 @@ package org.example.coha.domain.post.model
 
 import jakarta.persistence.*
 import org.example.coha.domain.reply.model.Reply
+import org.springframework.security.core.userdetails.User
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -23,9 +24,9 @@ class Post(
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
     val replies: MutableList<Reply> = mutableListOf(),
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    var post: Post
+//    @Column(name = "author")
+//    var author: User
+
 ) {
 
     @Column(name = "created_at")

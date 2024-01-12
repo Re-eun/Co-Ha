@@ -16,6 +16,7 @@ class PostServiceImpl(
     private val postRepository: PostRepository
 ): PostService {
 
+    @Transactional
     override fun createPost(request: CreatePostRequest): PostResponse {
         val post = postRepository.save(request.toPost())
         return PostResponse.toPostResponse(post)
@@ -33,10 +34,10 @@ class PostServiceImpl(
     }
 
     @Transactional
-    override fun updatePost(request: UpdatePostRequest): PostResponse {
-        val savedpost = postRepository.findByIdOrNull(request.id) ?: throw ModelNotFoundException("Post", request.id)
-        savedpost.content = request.content
-        return PostResponse.toPostResponse(savedpost)
+    override fun updatePost(postId: Long, request: UpdatePostRequest): PostResponse {
+        val savedPost = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", request.id)
+        savedPost.content = request.content
+        return PostResponse.toPostResponse(savedPost)
     }
 
 
@@ -44,5 +45,7 @@ class PostServiceImpl(
     override fun deletePost(postId: Long) {
         postRepository.deleteById(postId)
     }
+
+
 
 }
