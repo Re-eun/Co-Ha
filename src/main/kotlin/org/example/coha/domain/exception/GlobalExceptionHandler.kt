@@ -13,4 +13,20 @@ class GlobalExceptionHandler {
     fun handleModelNotFoundException(e: ModelNotFoundException): ResponseEntity<ErrorResponse> {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse(e.message))
     }
+
+    @ExceptionHandler(DuplicateUsernameException::class)
+    fun handleDuplicateUsernameException(e: DuplicateUsernameException): ResponseEntity<ErrorResponse> {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorResponse(e.message))
+    }
+
+    @ExceptionHandler(MisMatchedExcpetion::class)
+    fun handleDuplicateUsernameException(e: MisMatchedExcpetion): ResponseEntity<ErrorResponse> {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorResponse(e.message))
+    }
+
+    @ExceptionHandler(UnauthorizedAccess::class)
+    fun handleUnauthorizedAccess(e: UnauthorizedAccess): ResponseEntity<ErrorResponse> {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorResponse(e.message))
+    }
+
 }

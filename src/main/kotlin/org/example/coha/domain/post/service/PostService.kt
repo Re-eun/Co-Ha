@@ -5,6 +5,8 @@ import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.post.dto.PostWithReplyResponse
 import org.example.coha.domain.post.dto.UpdatePostRequest
 import org.example.coha.domain.post.model.Post
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable
 
 
 interface PostService {
@@ -15,7 +17,9 @@ interface PostService {
 
     fun getPostById(postId: Long): PostWithReplyResponse
 
-    fun updatePost(postId: UpdatePostRequest): PostResponse
+
+    fun updatePost(postId: Long, request: UpdatePostRequest): PostResponse
+
 
     fun deletePost(postId: Long)
 
