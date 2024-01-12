@@ -15,7 +15,7 @@ class Reply(
     @Column(name = "created_at")
     var createdAt: String,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     var post: Post,
 

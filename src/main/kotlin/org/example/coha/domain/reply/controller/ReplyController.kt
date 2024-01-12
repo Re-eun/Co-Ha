@@ -37,8 +37,7 @@ class ReplyController(
                     @PathVariable replyId: Long,
                     @RequestBody updateReplyRequest: UpdateReplyRequest
     ): ResponseEntity<ReplyResponse> {
-//        val reply = replyService.getReplyById(replyId)
-//        if(!principal.equals(reply)) throw UnauthorizedAccess()
+
         val updateReply = replyService.updateReply(postId, replyId, updateReplyRequest)
 
         return ResponseEntity
@@ -49,11 +48,11 @@ class ReplyController(
 
     @PreAuthorize("hasAuthority('USER')")
     @DeleteMapping("/{replyId}")
-    fun deleteReply(@PathVariable postId: Long,
+    fun deleteReply(
                     @PathVariable replyId: Long
     ): ResponseEntity<String> {
 
-        replyService.deleteReply(postId, replyId)
+        replyService.deleteReply(replyId)
         val deleteReplySuccessMessage = "댓글이 성공적으로 삭제되었습니다."
 
         return ResponseEntity

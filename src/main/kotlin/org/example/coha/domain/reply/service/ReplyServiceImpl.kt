@@ -42,7 +42,6 @@ class ReplyServiceImpl(
     // 댓글 수정
     @Transactional
     override fun updateReply(postId: Long, replyId: Long, request: UpdateReplyRequest): ReplyResponse {
-        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
         val reply = replyRepository.findByIdOrNull(replyId) ?: throw ModelNotFoundException("Reply", replyId)
         val currentUser = SecurityContextHolder.getContext().authentication.name
         if(reply.author != currentUser) throw UnauthorizedAccess()
@@ -54,8 +53,7 @@ class ReplyServiceImpl(
 
     // 댓글 삭제
     @Transactional
-    override fun deleteReply(postId: Long, replyId: Long) {
-        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
+    override fun deleteReply(replyId: Long) {
         val reply = replyRepository.findByIdOrNull(replyId) ?: throw ModelNotFoundException("Reply", replyId)
         val currentUser = SecurityContextHolder.getContext().authentication.name
         if(reply.author != currentUser) throw UnauthorizedAccess()
