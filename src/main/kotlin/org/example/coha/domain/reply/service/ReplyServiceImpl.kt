@@ -23,6 +23,7 @@ class ReplyServiceImpl(
     // 댓글 작성
 
     @Transactional
+
     override fun creatReply(createReplyRequest: CreateReplyRequest): ReplyResponse{
         val targetPost = postRepository.findByIdOrNull(createReplyRequest.postId)
             ?: throw Exception("target post is not found")
@@ -45,14 +46,16 @@ class ReplyServiceImpl(
 
     // 댓글 수정
     @Transactional
-    override fun updateReply(postId: Long, replyId: Long, request: UpdateReplyRequest): ReplyResponse {
+    override fun updateReply(replyId: Long, request: UpdateReplyRequest): ReplyResponse {
         val reply = replyRepository.findByIdOrNull(replyId) ?: throw ModelNotFoundException("Reply", replyId)
         val currentUser = SecurityContextHolder.getContext().authentication.name
         if(reply.author != currentUser) throw UnauthorizedAccess()
+
         reply.content = request.content
 
         return ReplyResponse.toReplyResponse(reply)
     }
+
 
 
     // 댓글 삭제

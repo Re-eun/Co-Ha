@@ -6,23 +6,31 @@ import org.example.coha.domain.post.dto.CreatePostRequest
 import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.post.dto.PostWithReplyResponse
 import org.example.coha.domain.post.dto.UpdatePostRequest
+import org.example.coha.domain.post.model.Post
 import org.example.coha.domain.post.repository.PostRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.multipart.MultipartFile
 
 
 @Service
 class PostServiceImpl(
-    private val postRepository: PostRepository
+    private val postRepository: PostRepository,
+    private val fileStorageService: FileStorageService
 ): PostService {
 
     @Transactional
-    override fun createPost(request: CreatePostRequest): PostResponse {
+    override fun createPost(request: CreatePostRequest, image:MultipartFile?): PostResponse {
         val currentUser = SecurityContextHolder.getContext().authentication.name
+        val url = if(image != null) fileStorageService.storeFile(image) else ""
 
-        val post = postRepository.save(request.toPost(currentUser))
+        //이미지 저장 및 경로 획득
+        //val imagePath = request.image?.let {fileStorageService.storeFile(it)}
+
+        //Post 객체 생성 및 저장
+        val post = postRepository.save(request.toPost(url, currentUser))
         return PostResponse.toPostResponse(post)
 
 
@@ -64,6 +72,7 @@ class PostServiceImpl(
     }
 
 }
+
 
 
 

@@ -21,6 +21,9 @@ class Post(
     @Column(name = "name")
     var name: String,
 
+    @Column(name = "image_path") // 이미지 경로 추가
+    var imagePath: String? = null,
+
     @Column(name = "view")
     var view: Int,
 

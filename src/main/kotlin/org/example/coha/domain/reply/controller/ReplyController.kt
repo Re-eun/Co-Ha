@@ -24,6 +24,7 @@ class ReplyController(
         @RequestBody createReplyRequest:    CreateReplyRequest,
         principal: Principal
     ): ResponseEntity<ReplyResponse>{
+        val result = replyService.creatReply(createReplyRequest)
 
         return ResponseEntity
             .status(HttpStatus.CREATED)
@@ -33,12 +34,11 @@ class ReplyController(
 
     @PreAuthorize("hasAuthority('USER')")
     @PutMapping("/{replyId}")
-    fun updateReply(@PathVariable postId: Long,
-                    @PathVariable replyId: Long,
+    fun updateReply(@PathVariable replyId: Long,
                     @RequestBody updateReplyRequest: UpdateReplyRequest
     ): ResponseEntity<ReplyResponse> {
 
-        val updateReply = replyService.updateReply(postId, replyId, updateReplyRequest)
+        val updateReply = replyService.updateReply(replyId, updateReplyRequest)
 
         return ResponseEntity
             .status(HttpStatus.OK)

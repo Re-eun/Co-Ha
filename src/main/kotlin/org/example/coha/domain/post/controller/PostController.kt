@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 
 
 @Tag(name = "게시판")
@@ -22,12 +23,16 @@ class PostController(
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping
     fun createPost(
-        @RequestBody createPostRequest: CreatePostRequest,
-    ): ResponseEntity<PostResponse> {
-    return  ResponseEntity
-        .status(HttpStatus.CREATED)
-        .body(postService.createPost(createPostRequest))
+       @RequestPart data: CreatePostRequest,
+       @RequestPart("image") image: MultipartFile?
+    ): ResponseEntity<Boolean> {
+
+        // 저장하는 서비스를 호출함
+        postService.createPost(data,image)
+
+        return  ResponseEntity.status(HttpStatus.CREATED).body(true)
     }
+
 
 
 
@@ -71,6 +76,7 @@ class PostController(
                 .status(HttpStatus.OK)
                 .body(deletePostSuccessMessage)
     }
+
 
 
 
