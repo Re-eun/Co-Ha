@@ -13,7 +13,6 @@ data class CreatePostRequest(
             title = title,
             name = name,
             content = content,
-
             author = userName,
 
             view = 0
