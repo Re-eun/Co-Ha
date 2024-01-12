@@ -8,6 +8,7 @@ import org.example.coha.domain.post.dto.UpdatePostRequest
 import org.example.coha.domain.post.repository.PostRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 
 @Service
@@ -36,11 +37,21 @@ class PostServiceImpl(
         return PostWithReplyResponse.toPostWithReplyResponse(post)
     }
 
-    override fun updatePost(request: UpdatePostRequest): PostResponse {
-        val savedpost = postRepository.save(request.post())
-
+    @Transactional
+    override fun updatePost(postId: UpdatePostRequest): PostResponse {
+        val savedpost = postRepository.findByIdOrNull(postId.id) ?: throw ModelNotFoundException("Post", postId.id)
+        savedpost.content = postId.content
         return PostResponse.toPostResponse(savedpost)
-
-
     }
+
+
+    @Transactional
+    override fun deletePost(postId: Long) {
+        postRepository.deleteById(postId)
+    }
+    @Transactional
+    override fun updateViews(postId: Long) {
+        postRepository.updateViews(postId)
+    }
+
 }
