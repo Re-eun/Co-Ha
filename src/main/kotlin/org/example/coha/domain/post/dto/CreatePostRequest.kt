@@ -9,11 +9,12 @@ data class CreatePostRequest(
     val content: String,
     val image: MultipartFile? //이미지를 받아올 필드
 ) {
-    fun toPost(imagePath: String?): Post { //request받아온 걸 post로 변환
+    fun toPost(): Post { //request받아온 걸 post로 변환
         return Post(
             title = title,
             name = name,
             content = content,
+            author = userName,
             view = 0,
             imagePath = imagePath
         )

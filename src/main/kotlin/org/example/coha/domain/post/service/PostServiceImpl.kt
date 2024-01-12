@@ -1,6 +1,7 @@
 package org.example.coha.domain.post.service
 
 import org.example.coha.domain.exception.ModelNotFoundException
+import org.example.coha.domain.exception.UnauthorizedAccess
 import org.example.coha.domain.post.dto.CreatePostRequest
 import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.post.dto.PostWithReplyResponse
@@ -8,6 +9,7 @@ import org.example.coha.domain.post.dto.UpdatePostRequest
 import org.example.coha.domain.post.model.Post
 import org.example.coha.domain.post.repository.PostRepository
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
@@ -15,10 +17,14 @@ import org.springframework.web.multipart.MultipartFile
 
 @Service
 class PostServiceImpl(
-    private val postRepository: PostRepository,
-    private val fileStorageService: FileStorageService
+    private val postRepository: PostRepository
 ): PostService {
 
+    @Transactional
+    override fun createPost(request: CreatePostRequest): PostResponse {
+        val currentUser = SecurityContextHolder.getContext().authentication.name
+
+        val post = postRepository.save(request.toPost(currentUser))
     // 이미지 업로드 및 게시글 생성
     override fun createPost(request: CreatePostRequest, image: MultipartFile?): PostResponse {
         //이미지 저장 및 경로 획득
@@ -48,21 +54,31 @@ class PostServiceImpl(
     }
 
     @Transactional
-    override fun updatePost(postId: UpdatePostRequest): PostResponse {
-        val savedpost = postRepository.findByIdOrNull(postId.id) ?: throw ModelNotFoundException("Post", postId.id)
-        savedpost.content = postId.content
-        return PostResponse.toPostResponse(savedpost)
+
+    override fun updatePost(postId: Long, request: UpdatePostRequest): PostResponse {
+        val savedPost = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
+        val currentUser = SecurityContextHolder.getContext().authentication.name
+        if(savedPost.author != currentUser) throw UnauthorizedAccess()
+        savedPost.updatePost(request)
+        return PostResponse.toPostResponse(savedPost)
+
     }
 
 
     @Transactional
     override fun deletePost(postId: Long) {
+        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
+        val currentUser = SecurityContextHolder.getContext().authentication.name
+        if(post.author != currentUser) throw UnauthorizedAccess()
         postRepository.deleteById(postId)
     }
     @Transactional
     override fun updateViews(postId: Long) {
         postRepository.updateViews(postId)
     }
+
+
+
 
     //CreatePostRequest 확장함수에 이미지 처리 로직 추가
     private fun CreatePostRequest.toPost(imagePath: String?): Post {
@@ -76,3 +92,6 @@ class PostServiceImpl(
     }
 
 }
+
+
+
