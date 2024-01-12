@@ -21,7 +21,7 @@ class ReplyController(
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping
     fun creatReply(
-        @RequestBody createReplyRequest: CreateReplyRequest,
+        @RequestBody createReplyRequest:    CreateReplyRequest,
         principal: Principal
     ): ResponseEntity<ReplyResponse>{
 
