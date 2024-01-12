@@ -17,7 +17,10 @@ class Reply(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
-    var post: Post
+    var post: Post,
+
+    @Column(name = "author")
+    var author: String
 
 ) {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

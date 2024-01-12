@@ -15,7 +15,9 @@ interface PostService {
 
     fun getPostById(postId: Long): PostWithReplyResponse
 
-    fun updatePost(postId: UpdatePostRequest): PostResponse
+
+    fun updatePost(postId: Long, request: UpdatePostRequest): PostResponse
+
 
     fun deletePost(postId: Long)
 
