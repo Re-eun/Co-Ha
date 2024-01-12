@@ -4,11 +4,11 @@ import org.example.coha.domain.post.model.Post
 
 data class UpdatePostRequest(
 
-     val content: String?,
+    val content: String?,
     val title: String?
-
-
-
 ) {
 
+
+
 }
+

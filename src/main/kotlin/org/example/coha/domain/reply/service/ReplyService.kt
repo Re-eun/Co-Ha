@@ -11,4 +11,7 @@ interface ReplyService {
     fun updateReply(replyId: Long, request: UpdateReplyRequest): ReplyResponse
 
     fun deleteReply(replyId: Long)
+
+    fun getReplyById(replyId: Long): Reply
+
 }
