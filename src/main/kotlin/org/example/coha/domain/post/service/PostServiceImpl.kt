@@ -24,8 +24,10 @@ class PostServiceImpl(
         //이미지 저장 및 경로 획득
         //val imagePath = request.image?.let {fileStorageService.storeFile(it)}
 
+        val url = if( image != null) fileStorageService.storeFile(image) else ""
+
         //Post 객체 생성 및 저장
-        val post = postRepository.save(request.toPost("imagePath"))
+        val post = postRepository.save(request.toPost(url))
         return PostResponse.toPostResponse(post)
 
 
