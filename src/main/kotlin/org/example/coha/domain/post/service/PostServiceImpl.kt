@@ -39,10 +39,10 @@ class PostServiceImpl(
 
     @Transactional
     override fun updatePost(postId: Long, request: UpdatePostRequest): PostResponse {
-        val savedPost = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", request.id)
+        val savedPost = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
         val currentUser = SecurityContextHolder.getContext().authentication.name
         if(savedPost.author != currentUser) throw UnauthorizedAccess()
-        savedPost.content = request.content
+        savedPost.updatePost(request)
         return PostResponse.toPostResponse(savedPost)
     }
 
