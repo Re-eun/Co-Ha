@@ -8,6 +8,7 @@ import org.example.coha.domain.post.dto.UpdatePostRequest
 import org.example.coha.domain.post.service.PostService
 import org.springframework.http.ResponseEntity
 import org.springframework.http.HttpStatus
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 
@@ -35,13 +36,12 @@ class PostController(
     @PutMapping("/{postId}")
     fun updatePost(
         @PathVariable postId: Long,
-
         @RequestBody updatePostRequest: UpdatePostRequest,
     ): ResponseEntity<PostResponse>{
 
 
 
-        val savePost: PostResponse = postService.updatePost(postId, postRequest)
+        val savePost: PostResponse = postService.updatePost(postId, updatePostRequest)
 
         return ResponseEntity
             .status(HttpStatus.OK)
@@ -78,5 +78,7 @@ class PostController(
 
 
 }
+
+
 
 

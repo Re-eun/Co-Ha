@@ -1,6 +1,7 @@
 package org.example.coha.domain.post.model
 
 import jakarta.persistence.*
+import org.example.coha.domain.post.dto.UpdatePostRequest
 import org.example.coha.domain.reply.model.Reply
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

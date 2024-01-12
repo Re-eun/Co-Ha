@@ -46,7 +46,7 @@ class ReplyServiceImpl(
 
     // 댓글 수정
     @Transactional
-    override fun updateReply(postId: Long, replyId: Long, request: UpdateReplyRequest): ReplyResponse {
+    override fun updateReply(replyId: Long, request: UpdateReplyRequest): ReplyResponse {
         val reply = replyRepository.findByIdOrNull(replyId) ?: throw ModelNotFoundException("Reply", replyId)
         val currentUser = SecurityContextHolder.getContext().authentication.name
         if(reply.author != currentUser) throw UnauthorizedAccess()

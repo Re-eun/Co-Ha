@@ -9,6 +9,5 @@ data class UpdatePostRequest(
 ) {
 
 
-
 }
 

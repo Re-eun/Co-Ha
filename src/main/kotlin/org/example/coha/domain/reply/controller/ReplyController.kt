@@ -34,24 +34,22 @@ class ReplyController(
 
     @PreAuthorize("hasAuthority('USER')")
     @PutMapping("/{replyId}")
-    fun updateReply(@PathVariable postId: Long,
-                    @PathVariable replyId: Long,
+    fun updateReply(@PathVariable replyId: Long,
                     @RequestBody updateReplyRequest: UpdateReplyRequest
     ): ResponseEntity<ReplyResponse> {
 
-        val updateReply = replyService.updateReply(postId, replyId, updateReplyRequest)
+        val updateReply = replyService.updateReply(replyId, updateReplyRequest)
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(replyService.updateReply(replyId, updateReplyRequest))
+            .body(updateReply)
     }
 
 
     @PreAuthorize("hasAuthority('USER')")
     @DeleteMapping("/{replyId}")
 
-    fun deleteReply(
-                    @PathVariable replyId: Long
+    fun deleteReply(@PathVariable replyId: Long
     ): ResponseEntity<String> {
 
         replyService.deleteReply(replyId)
