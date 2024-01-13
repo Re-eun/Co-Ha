@@ -1,6 +1,7 @@
 package org.example.coha.domain.post.controller
 
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.example.coha.domain.common.SortOrder
 import org.example.coha.domain.post.dto.CreatePostRequest
 import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.post.dto.PostWithReplyResponse
@@ -47,9 +48,9 @@ class PostController(
 
 
     @GetMapping
-    fun getAllPostList(): ResponseEntity<List<PostResponse>> {
+    fun getAllPostList(@RequestParam sortOrder: SortOrder): ResponseEntity<List<PostResponse>> {
 
-        return ResponseEntity.status(HttpStatus.OK).body(postService.getAllPostList())
+        return ResponseEntity.status(HttpStatus.OK).body(postService.getAllPostList(sortOrder))
     }
 
     @GetMapping("/{postId}")

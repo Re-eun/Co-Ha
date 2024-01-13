@@ -1,5 +1,6 @@
 package org.example.coha.domain.post.service
 
+import org.example.coha.domain.common.SortOrder
 import org.example.coha.domain.exception.ModelNotFoundException
 import org.example.coha.domain.exception.UnauthorizedAccess
 import org.example.coha.domain.post.dto.CreatePostRequest
@@ -7,7 +8,6 @@ import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.post.dto.PostWithReplyResponse
 import org.example.coha.domain.post.dto.UpdatePostRequest
 import org.example.coha.domain.post.repository.PostRepository
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
@@ -29,9 +29,15 @@ class PostServiceImpl(
 
     }
 
-    override fun getAllPostList(): List<PostResponse> {
+    override fun getAllPostList(sortOrder: SortOrder): List<PostResponse> {
+        var postList: List<PostResponse> = listOf()
+        if (sortOrder == SortOrder.DESC) {
+            postList = postRepository.findAllByOrderByCreatedAtDesc()
+        } else {
+            postList = postRepository.findAllByOrderByCreatedAtAsc()
+        }
 
-        return postRepository.findAll().map { PostResponse.toPostResponse(it) }
+        return postList
 
     }
 
