@@ -18,7 +18,6 @@ class Post(
     @Column(name = "content")
     var content: String,
 
-
     @Column(name = "image_path") // 이미지 경로 추가
     var imagePath: String? = null,
 

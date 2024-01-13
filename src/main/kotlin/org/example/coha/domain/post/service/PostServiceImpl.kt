@@ -1,5 +1,9 @@
 package org.example.coha.domain.post.service
 
+import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.storage.Storage
+import io.github.jan.supabase.storage.storage
+import kotlinx.coroutines.runBlocking
 import org.example.coha.domain.common.SortOrder
 import org.example.coha.domain.exception.ModelNotFoundException
 import org.example.coha.domain.exception.UnauthorizedAccess
@@ -7,13 +11,14 @@ import org.example.coha.domain.post.dto.CreatePostRequest
 import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.post.dto.PostWithReplyResponse
 import org.example.coha.domain.post.dto.UpdatePostRequest
-import org.example.coha.domain.post.model.Post
 import org.example.coha.domain.post.repository.PostRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
+import java.util.*
+import kotlin.time.Duration.Companion.seconds
 
 
 @Service
@@ -82,7 +87,31 @@ class PostServiceImpl(
         postRepository.updateViews(postId)// postRepository에 updateViews 기능을 활성화
     }
 
+
+    override fun storesupaFile(file: MultipartFile): String {
+
+        val supabaseClient = createSupabaseClient(
+                supabaseUrl = "https://dkwzbmeugxsfvouqvpve.supabase.co",
+                supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrd3pibWV1Z3hzZnZvdXF2cHZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDQ2ODkzNTQsImV4cCI6MjAyMDI2NTM1NH0.kcSlZQJfRAoS5ZY81nYeiaT5DiBxvdnh-egZ2j3_n7g"
+        ) {
+            install(Storage) {
+                transferTimeout = 90.seconds
+            }
+        }
+        val bucket = supabaseClient.storage.from("coha")
+        val filePath = "${UUID.randomUUID()}.png"
+        runBlocking {
+            bucket.upload(filePath, file.bytes, upsert = false)
+        }
+
+        val uploadedUrl =
+                supabaseClient.storage.from("coha").publicUrl(filePath)
+
+        return uploadedUrl
+    }
 }
+
+
 
 
 

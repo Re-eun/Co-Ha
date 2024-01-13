@@ -20,11 +20,11 @@ interface PostService {
 
     fun updatePost(postId: Long, request: UpdatePostRequest): PostResponse
 
-
     fun deletePost(postId: Long)
 
     fun updateViews(postId: Long)
 
+    fun storesupaFile(file:MultipartFile): String
 
 
 
