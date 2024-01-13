@@ -15,25 +15,21 @@ import java.security.Principal
 @RequestMapping("/posts/{postId}/replies")
 @RestController
 class ReplyController(
-        private val replyService: ReplyService
+    private val replyService: ReplyService
 ) {
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping
     fun creatReply(
+        @RequestParam postId: Long,
+        @RequestBody createReplyRequest: CreateReplyRequest,
+        principal: Principal
+    ): ResponseEntity<ReplyResponse>{
+        val result = replyService.creatReply(postId, createReplyRequest)
 
-            //요청 본문에 있는 데이터를 나타내는 createReplyRequest 객체를 받음
-            @RequestBody createReplyRequest: CreateReplyRequest,
-            //현재 인증된 사용자 정보를 나타내는 Principal 객체를 받음
-            principal: Principal
-    ): ResponseEntity<ReplyResponse> {
-        // ReplyService를 사용하여 댓글 생성 메소드를 호출하고 결과값을 받음
-        val result = replyService.creatReply(createReplyRequest)
-
-        //HTTP 응답을 생성하여 클라이언트에게 결과를 반환함
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(replyService.creatReply(createReplyRequest))
+            .status(HttpStatus.CREATED)
+            .body(result)
     }
 
 
@@ -46,16 +42,15 @@ class ReplyController(
         val updateReply = replyService.updateReply(replyId, updateReplyRequest)
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(updateReply)
+            .status(HttpStatus.OK)
+            .body(updateReply)
     }
 
 
     @PreAuthorize("hasAuthority('USER')")
     @DeleteMapping("/{replyId}")
 
-    fun deleteReply(
-            @PathVariable replyId: Long
+    fun deleteReply(@PathVariable replyId: Long
     ): ResponseEntity<String> {
 
         //ReplyService를 사용하여 주어진 댓글 ID에 해당하는 댓글을 삭제

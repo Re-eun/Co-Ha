@@ -1,4 +1,6 @@
 package org.example.coha.domain.common
 
-class BaseEntity {
+enum class SortOrder {
+    DESC,
+    ASC
 }

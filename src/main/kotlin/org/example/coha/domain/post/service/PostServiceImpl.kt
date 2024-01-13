@@ -1,5 +1,6 @@
 package org.example.coha.domain.post.service
 
+import org.example.coha.domain.common.SortOrder
 import org.example.coha.domain.exception.ModelNotFoundException
 import org.example.coha.domain.exception.UnauthorizedAccess
 import org.example.coha.domain.post.dto.CreatePostRequest
@@ -36,8 +37,15 @@ class PostServiceImpl(
 
     }
 
-    override fun getAllPostList(): List<PostResponse> {
-        return postRepository.findAll().map { PostResponse.toPostResponse(it) }
+    override fun getAllPostList(sortOrder: SortOrder): List<PostResponse> {
+        var postList: List<PostResponse> = listOf()
+        if (sortOrder == SortOrder.DESC) {
+            postList = postRepository.findAllByOrderByCreatedAtDesc()
+        } else {
+            postList = postRepository.findAllByOrderByCreatedAtAsc()
+        }
+
+        return postList
 
     }
 
@@ -71,7 +79,7 @@ class PostServiceImpl(
 
     @Transactional
     override fun updateViews(postId: Long) {
-        postRepository.updateViews(postId)
+        postRepository.updateViews(postId)// postRepository에 updateViews 기능을 활성화
     }
 
 }

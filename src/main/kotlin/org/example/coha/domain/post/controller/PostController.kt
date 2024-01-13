@@ -1,17 +1,16 @@
 package org.example.coha.domain.post.controller
 
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.example.coha.domain.common.SortOrder
 import org.example.coha.domain.post.dto.CreatePostRequest
 import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.post.dto.PostWithReplyResponse
 import org.example.coha.domain.post.dto.UpdatePostRequest
 import org.example.coha.domain.post.service.PostService
 import org.springframework.http.HttpStatus
-import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
 
 
 @Tag(name = "게시판")
@@ -20,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile
 class PostController(
     private val postService: PostService
 ) {
+
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun createPost(
@@ -51,9 +51,11 @@ class PostController(
             .body(savePost)
     }
 
+
     @GetMapping
-    fun getAllPostList(): ResponseEntity<List<PostResponse>> {
-        return ResponseEntity.status(HttpStatus.OK).body(postService.getAllPostList())
+    fun getAllPostList(@RequestParam sortOrder: SortOrder): ResponseEntity<List<PostResponse>> {
+
+        return ResponseEntity.status(HttpStatus.OK).body(postService.getAllPostList(sortOrder))
     }
 
     @GetMapping("/{postId}")
@@ -61,7 +63,9 @@ class PostController(
         @PathVariable postId: Long
     ): ResponseEntity<PostWithReplyResponse> {
         postService.updateViews(postId)
-        return ResponseEntity.status(HttpStatus.OK).body(postService.getPostById(postId))
+        val updatePost = postService.getPostById(postId)
+        return ResponseEntity.status(HttpStatus.OK).body(updatePost)
+
     }
 
     @PreAuthorize("hasAuthority('USER')")

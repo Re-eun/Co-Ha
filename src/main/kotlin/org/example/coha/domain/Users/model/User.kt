@@ -32,7 +32,7 @@ class User(
     companion object {
         fun toUser(request: SignUpRequest, encoder: PasswordEncoder) = User(
             email = request.email,
-            userPassword = encoder.encode(request.userPassword),
+            userPassword = encoder.encode(request.userPassword), // 비밀번호 암호화
             name = request.name,
 
             )
