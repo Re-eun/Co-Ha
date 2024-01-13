@@ -55,6 +55,9 @@ class FileStorageServiceImpl(
 
         val uploadedUrl =
                 supabaseClient.storage.from("coha").publicUrl(filePath)
+
+        return uploadedUrl
+
     }
 
 
