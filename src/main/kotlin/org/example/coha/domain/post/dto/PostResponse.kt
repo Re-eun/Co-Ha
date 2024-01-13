@@ -6,7 +6,7 @@ data class PostResponse(
     var id: Long?,
     var title: String,
     var content: String,
-    var name: String,
+    var author: String,
     var createdAt: String,
     var view: Int
 ) {
@@ -16,7 +16,7 @@ data class PostResponse(
                 id = post.id,
                 title = post.title,
                 content = post.content,
-                name = post.name,
+                author = post.author,
                 createdAt = post.createdAt.toString(),
                 view = post.view
             )

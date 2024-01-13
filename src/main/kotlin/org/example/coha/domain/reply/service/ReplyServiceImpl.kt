@@ -24,17 +24,15 @@ class ReplyServiceImpl(
 
     @Transactional
 
-    override fun creatReply(createReplyRequest: CreateReplyRequest): ReplyResponse{
-        val targetPost = postRepository.findByIdOrNull(createReplyRequest.postId)
+    override fun creatReply(postId: Long, createReplyRequest: CreateReplyRequest): ReplyResponse{
+        val targetPost = postRepository.findByIdOrNull(postId)
             ?: throw Exception("target post is not found")
 
         val currentUser = SecurityContextHolder.getContext().authentication.name
 
         val reply = Reply(
-            name = createReplyRequest.name,
             content = createReplyRequest.content,
             post = targetPost,
-            createdAt = createReplyRequest.createdAt,
             author = currentUser
         )
 

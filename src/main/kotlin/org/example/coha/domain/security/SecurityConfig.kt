@@ -19,7 +19,6 @@ class SecurityConfig(
     @Bean
     fun filterChain(http: HttpSecurity) = http
         .csrf { obj: CsrfConfigurer<HttpSecurity> -> obj.disable() } // 공격 방지위해서는 활성화해야 함
-//        .headers() {it.frameOptions().sameOrigin()}
         .authorizeHttpRequests {
             it.requestMatchers(*allowedUrls).permitAll()	// requestMatchers의 인자로 전달된 url을 모두에게 허용
                 .anyRequest().authenticated()	// 그 외의 모든 요청은 인증 필요

@@ -18,8 +18,6 @@ class Post(
     @Column(name = "content")
     var content: String,
 
-    @Column(name = "name")
-    var name: String,
 
     @Column(name = "view")
     var view: Int,

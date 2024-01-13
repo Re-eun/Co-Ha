@@ -20,19 +20,21 @@ class JwtAuthenticationFilter(
 ): OncePerRequestFilter() {
 
 
+    // 헤더에서 토큰 추출
     private fun parseBearerToken(request: HttpServletRequest)
     = request
         .getHeader(HttpHeaders.AUTHORIZATION) // http 요청의 헤더에서 authorizarion 값을 찾아서
-        .takeIf { it?.startsWith("Bearer ", true) ?: false } // 접두어 확인, 제외하고 파싱
+        .takeIf { it?.startsWith("Bearer ", true) ?: false } // 접두어 확인, 제거 ( Bearer 타입 )
         ?.substring(7)
 
 
+    // 토큰으로 정보 추출
     private fun parseUserSpecification(token: String?) = (
             token?.takeIf { it.length >= 10 }
-                ?.let { tokenProvider.validateTokenAndGetSubject(it) } // 토큰 복호화
-                ?: "anonymous:anonymous" // 너무 짧을 때는 익명
+                ?.let { tokenProvider.validateTokenAndGetSubject(it) } // 토큰이 유효한지 확인, 복호화
+                ?: "anonymous:anonymous" // 유효하지 않을 때 설정
             ).split(":")
-        .let { User(it[0], "", listOf(SimpleGrantedAuthority(it[1]))) } // 유저아이디, ""(비밀번호), 타입 가져와서 객체 생성
+        .let { User(it[0], "", listOf(SimpleGrantedAuthority(it[1]))) } // 사용자 정보 가져와서 스프링 시큐리티 User 객체 생성
 
 
     // 인증 정보 설정
@@ -41,12 +43,12 @@ class JwtAuthenticationFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        val token = parseBearerToken(request)
-        val user = parseUserSpecification(token)
-        UsernamePasswordAuthenticationToken.authenticated(user, token, user.authorities)
+        val token = parseBearerToken(request) // 토큰 추출
+        val user = parseUserSpecification(token) // 사용자 정보 추출
+        UsernamePasswordAuthenticationToken.authenticated(user, token, user.authorities) // 인증된 사용자를 나타내는 토큰 생성
             .apply { details = WebAuthenticationDetails(request) } // 요청날린 client 또는 프록시의 ip 주소와 세션 id 저장
-            .also { SecurityContextHolder.getContext().authentication = it }
-        filterChain.doFilter(request, response)
+            .also { SecurityContextHolder.getContext().authentication = it } // sercurityContextHolder 에 인증 정보 저장
+        filterChain.doFilter(request, response) // 다음 필터
     }
 
 }

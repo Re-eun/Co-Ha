@@ -8,7 +8,7 @@ import org.example.coha.domain.reply.model.Reply
 interface ReplyService {
 
 
-    fun creatReply(createReplyRequest: CreateReplyRequest): ReplyResponse
+    fun creatReply(postId: Long, createReplyRequest: CreateReplyRequest): ReplyResponse
     fun updateReply(replyId: Long, request: UpdateReplyRequest): ReplyResponse
 
     fun deleteReply(replyId: Long)

@@ -17,14 +17,14 @@ import java.security.Principal
 class ReplyController(
     private val replyService: ReplyService
 ) {
-
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping
     fun creatReply(
-        @RequestBody createReplyRequest:    CreateReplyRequest,
+        @RequestParam postId: Long,
+        @RequestBody createReplyRequest: CreateReplyRequest,
         principal: Principal
     ): ResponseEntity<ReplyResponse>{
-        val result = replyService.creatReply(createReplyRequest)
+        val result = replyService.creatReply(postId, createReplyRequest)
 
         return ResponseEntity
             .status(HttpStatus.CREATED)
