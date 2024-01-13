@@ -17,8 +17,8 @@ import org.springframework.web.multipart.MultipartFile
 
 @Service
 class PostServiceImpl(
-    private val postRepository: PostRepository,
-    private val fileStorageService: FileStorageService
+    private val postRepository: PostRepository, //게시글 저장소(PostRepository) 주입
+    private val fileStorageService: FileStorageService //파일 저장 및 로드 서비스(FiletorageService) 주입
 ): PostService {
 
     @Transactional
@@ -62,7 +62,10 @@ class PostServiceImpl(
     override fun deletePost(postId: Long) {
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
         val currentUser = SecurityContextHolder.getContext().authentication.name
+
+        //현재 사용자와 게시글 작성자가 다를 경우 삭제 권한이 없음
         if (post.author != currentUser) throw UnauthorizedAccess()
+        //게시글 삭제
         postRepository.deleteById(postId)
     }
 
