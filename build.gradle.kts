@@ -67,6 +67,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     implementation("io.github.jan-tennert.supabase:storage-kt:2.0.4") // 스토리지 추가
+    implementation("io.ktor:ktor-client-okhttp-jvm:2.3.7")
 
 }
 

@@ -19,14 +19,14 @@ import org.springframework.web.multipart.MultipartFile
 @RequestMapping("/posts")
 @RestController
 class PostController(
-    private val postService: PostService
+        private val postService: PostService
 ) {
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun createPost(
-       @RequestPart data: CreatePostRequest, // 게시물 생성에 필요한 데이터를 나타내는 객체
-       @RequestPart("image") image: MultipartFile? //게시물에 첨부될 이미지 파일
+            @RequestPart data: CreatePostRequest, // 게시물 생성에 필요한 데이터를 나타내는 객체
+            @RequestPart("image") image: MultipartFile? //게시물에 첨부될 이미지 파일
     ): ResponseEntity<Any> {
 
         //이미지 파일이 존재하는지 확인
@@ -45,18 +45,22 @@ class PostController(
         return  ResponseEntity.status(HttpStatus.CREATED).body("게시글이 생성되었습니다.")
     }
 
+
+
+
+
     @PreAuthorize("hasAuthority('USER')")
     @PutMapping("/{postId}")
     fun updatePost(
-        @PathVariable postId: Long,
-        @RequestBody updatePostRequest: UpdatePostRequest,
+            @PathVariable postId: Long,
+            @RequestBody updatePostRequest: UpdatePostRequest,
     ): ResponseEntity<PostResponse>{
 
         val savePost: PostResponse = postService.updatePost(postId, updatePostRequest)
 
         return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(savePost)
+                .status(HttpStatus.OK)
+                .body(savePost)
     }
 
 
@@ -68,7 +72,7 @@ class PostController(
 
     @GetMapping("/{postId}")
     fun getPostById(
-        @PathVariable postId: Long
+            @PathVariable postId: Long
     ): ResponseEntity<PostWithReplyResponse> {
         postService.updateViews(postId)
         val updatePost = postService.getPostById(postId)
@@ -97,5 +101,3 @@ class PostController(
 
 
 }
-
-
