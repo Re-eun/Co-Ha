@@ -1,2 +1,6 @@
 file:
   upload-dir: C:\Users\user\Desktop
+
+supabase:
+  url: https://dkwzbmeugxsfvouqvpve.supabase.co
+  key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrd3pibWV1Z3hzZnZvdXF2cHZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDQ2ODkzNTQsImV4cCI6MjAyMDI2NTM1NH0.kcSlZQJfRAoS5ZY81nYeiaT5DiBxvdnh-egZ2j3_n7g

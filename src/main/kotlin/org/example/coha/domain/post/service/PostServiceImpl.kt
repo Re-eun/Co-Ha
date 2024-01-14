@@ -12,6 +12,7 @@ import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.post.dto.PostWithReplyResponse
 import org.example.coha.domain.post.dto.UpdatePostRequest
 import org.example.coha.domain.post.repository.PostRepository
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
@@ -24,7 +25,9 @@ import kotlin.time.Duration.Companion.seconds
 @Service
 class PostServiceImpl(
         private val postRepository: PostRepository, //게시글 저장소(PostRepository) 주입
-        private val fileStorageService: FileStorageService //파일 저장 및 로드 서비스(FiletorageService) 주입
+        private val fileStorageService: FileStorageService, //파일 저장 및 로드 서비스(FiletorageService) 주입
+        @Value("\${supabase.url}") private val supabaseUrl: String,
+        @Value("\${supabase.url}") private val supabaseKey: String
 ): PostService {
 
     @Transactional
@@ -91,8 +94,8 @@ class PostServiceImpl(
     override fun storesupaFile(file: MultipartFile): String {
 
         val supabaseClient = createSupabaseClient(
-                supabaseUrl = "https://dkwzbmeugxsfvouqvpve.supabase.co",
-                supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrd3pibWV1Z3hzZnZvdXF2cHZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDQ2ODkzNTQsImV4cCI6MjAyMDI2NTM1NH0.kcSlZQJfRAoS5ZY81nYeiaT5DiBxvdnh-egZ2j3_n7g"
+                supabaseUrl = supabaseUrl,
+                supabaseKey = supabaseKey
         ) {
             install(Storage) {
                 transferTimeout = 90.seconds
@@ -104,9 +107,6 @@ class PostServiceImpl(
             bucket.upload(filePath, file.bytes, upsert = false)
         }
 
-        val uploadedUrl =
-                supabaseClient.storage.from("coha").publicUrl(filePath)
-
-        return uploadedUrl
+        return supabaseClient.storage.from("coha").publicUrl(filePath)
     }
 }

@@ -35,7 +35,7 @@ class PostController(
             return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미지를 넣어주세요")
         }
 
-        val imageUrl = postService.storesupaFile(image)
+        val url = postService.storesupaFile(image)
         // postservice를 사용하여 게시물을 생성하는 메소드를 호출함
         // 해당 메소드는 data와 image를 파라미터로 받아서 게시물을 생성하고 저장할 수 있음
         postService.createPost(data,image)
