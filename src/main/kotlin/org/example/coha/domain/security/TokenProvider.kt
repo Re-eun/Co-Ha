@@ -23,6 +23,7 @@ class TokenProvider(
     @Value("\${issuer}")
     private val issuer: String
 ) {
+
     val keyBytes: ByteArray = Decoders.BASE64.decode(secretKey)
     val key: Key = Keys.hmacShaKeyFor(keyBytes)
 
