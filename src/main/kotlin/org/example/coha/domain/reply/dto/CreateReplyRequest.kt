@@ -1,7 +1,5 @@
 package org.example.coha.domain.reply.dto
 
-class UpdateReplyRequest(
+data class CreateReplyRequest(
     val content: String
-
-) {
-}
+)

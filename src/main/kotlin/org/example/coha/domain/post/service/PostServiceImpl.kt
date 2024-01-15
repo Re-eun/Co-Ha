@@ -1,13 +1,17 @@
 package org.example.coha.domain.post.service
 
+import org.example.coha.domain.common.SortOrder
 import org.example.coha.domain.exception.ModelNotFoundException
+import org.example.coha.domain.exception.UnauthorizedAccess
 import org.example.coha.domain.post.dto.CreatePostRequest
 import org.example.coha.domain.post.dto.PostResponse
 import org.example.coha.domain.post.dto.PostWithReplyResponse
 import org.example.coha.domain.post.dto.UpdatePostRequest
 import org.example.coha.domain.post.repository.PostRepository
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 
 @Service
@@ -15,32 +19,61 @@ class PostServiceImpl(
     private val postRepository: PostRepository
 ): PostService {
 
+    @Transactional
     override fun createPost(request: CreatePostRequest): PostResponse {
-        val post = postRepository.save(request.toPost())
+        val currentUser = SecurityContextHolder.getContext().authentication.name
+
+        val post = postRepository.save(request.toPost(currentUser))
         return PostResponse.toPostResponse(post)
 
 
     }
 
-    override fun getAllPostList(): List<PostResponse> {
-        // DB 에 저장된 모든 게시글들을 가져와서 PostResponse로 변환 후 반환
-        return postRepository.findAll().map { PostResponse.toPostResponse(it)}
+    override fun getAllPostList(sortOrder: SortOrder): List<PostResponse> {
+        var postList: List<PostResponse> = listOf()
+        if (sortOrder == SortOrder.DESC) {
+            postList = postRepository.findAllByOrderByCreatedAtDesc()
+        } else {
+            postList = postRepository.findAllByOrderByCreatedAtAsc()
+        }
+
+        return postList
 
     }
 
     override fun getPostById(postId: Long): PostWithReplyResponse {
-        // 받아온 postId에 해당하는 post를 가져와서 PostResponse 로 변환 후 반환
-        // 해당 post 의 댓글도 함께 반환
-        // 해당하는 post가 없을 시 throw ModelNotFoundException
+
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
         return PostWithReplyResponse.toPostWithReplyResponse(post)
     }
 
-    override fun updatePost(request: UpdatePostRequest): PostResponse {
-        val savedpost = postRepository.save(request.post())
-
-        return PostResponse.toPostResponse(savedpost)
-
+    @Transactional
+    override fun updatePost(postId: Long, request: UpdatePostRequest): PostResponse {
+        val savedPost = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
+        val currentUser = SecurityContextHolder.getContext().authentication.name
+        if (savedPost.author != currentUser) throw UnauthorizedAccess()
+        savedPost.updatePost(request)
+        return PostResponse.toPostResponse(savedPost)
 
     }
+
+
+    @Transactional
+    override fun deletePost(postId: Long) {
+        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
+        val currentUser = SecurityContextHolder.getContext().authentication.name
+        if (post.author != currentUser) throw UnauthorizedAccess()
+        postRepository.deleteById(postId)
+    }
+
+    @Transactional
+    override fun updateViews(postId: Long) {
+        postRepository.updateViews(postId)// postRepository에 updateViews 기능을 활성화
+    }
+
 }
+
+
+
+
+

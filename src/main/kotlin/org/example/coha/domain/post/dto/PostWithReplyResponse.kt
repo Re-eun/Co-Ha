@@ -7,19 +7,23 @@ class PostWithReplyResponse(
     val id: Long?,
     val title: String,
     val content: String,
-    val name: String,
+    val author: String,
     val createdAt: String,
+    val view: Int,
     val replies: List<ReplyResponse>
-) {
+
+    ) {
     companion object {
         fun toPostWithReplyResponse(post: Post): PostWithReplyResponse {
             return PostWithReplyResponse(
                 id = post.id,
                 title = post.title,
                 content = post.content,
-                name = post.name,
+                author = post.author,
                 createdAt = post.createdAt,
-                replies = post.replies.map { ReplyResponse.toReplyResponse(it) }
+                view = post.view,
+                replies = post.replies.map { ReplyResponse.toReplyResponse(it) },
+
             )
         }
     }
