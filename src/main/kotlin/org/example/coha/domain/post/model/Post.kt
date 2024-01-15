@@ -9,24 +9,26 @@ import java.time.format.DateTimeFormatter
 @Entity
 @Table(name = "post")
 class Post(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
+        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+        var id: Long? = null,
 
-    @Column(name = "title")
-    var title: String,
+        @Column(name = "title")
+        var title: String,
 
-    @Column(name = "content")
-    var content: String,
+        @Column(name = "content")
+        var content: String,
 
+        @Column(name = "image_path") // 이미지 경로 추가
+        var imagePath: String? = null,
 
-    @Column(name = "view")
-    var view: Int,
+        @Column(name = "view")
+        var view: Int,
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
-    val replies: MutableList<Reply> = mutableListOf(),
+        @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
+        val replies: MutableList<Reply> = mutableListOf(),
 
-    @Column(name = "author")
-    var author: String
+        @Column(name = "author")
+        var author: String
 ) {
 
     @Column(name = "created_at")
@@ -44,4 +46,3 @@ class Post(
 
     }
 }
-

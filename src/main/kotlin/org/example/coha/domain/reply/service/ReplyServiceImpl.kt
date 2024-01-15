@@ -48,10 +48,12 @@ class ReplyServiceImpl(
         val reply = replyRepository.findByIdOrNull(replyId) ?: throw ModelNotFoundException("Reply", replyId)
         val currentUser = SecurityContextHolder.getContext().authentication.name
         if(reply.author != currentUser) throw UnauthorizedAccess()
+
         reply.content = request.content
 
         return ReplyResponse.toReplyResponse(reply)
     }
+
 
 
     // 댓글 삭제
