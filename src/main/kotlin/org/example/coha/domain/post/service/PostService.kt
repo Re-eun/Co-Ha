@@ -11,12 +11,11 @@ import org.springframework.web.multipart.MultipartFile
 
 interface PostService {
 
-    fun createPost(request: CreatePostRequest, image: MultipartFile?): PostResponse
+    fun createPost(request: CreatePostRequest, imageUrl: String): PostResponse
 
     fun getAllPostList(sortOrder: SortOrder): List<PostResponse>
 
     fun getPostById(postId: Long): PostWithReplyResponse
-
 
     fun updatePost(postId: Long, request: UpdatePostRequest): PostResponse
 

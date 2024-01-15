@@ -31,19 +31,15 @@ class PostServiceImpl(
 ): PostService {
 
     @Transactional
-    override fun createPost(request: CreatePostRequest, image:MultipartFile?): PostResponse {
+    override fun createPost(request: CreatePostRequest, imageUrl: String): PostResponse {
         val currentUser = SecurityContextHolder.getContext().authentication.name
-        val url = if(image != null) fileStorageService.storeFile(image) else ""
 
-        //이미지 저장 및 경로 획득
-        //val imagePath = request.image?.let {fileStorageService.storeFile(it)}
-
-        //Post 객체 생성 및 저장
-        val post = postRepository.save(request.toPost(url, currentUser))
+        // Post 객체 생성 및 저장
+        val post = postRepository.save(request.toPost(imageUrl, currentUser))
         return PostResponse.toPostResponse(post)
-
-
     }
+
+
 
     override fun getAllPostList(sortOrder: SortOrder): List<PostResponse> {
         var postList: List<PostResponse> = listOf()

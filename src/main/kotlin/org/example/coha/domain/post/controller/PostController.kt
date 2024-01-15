@@ -25,24 +25,17 @@ class PostController(
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun createPost(
-            @RequestPart data: CreatePostRequest, // 게시물 생성에 필요한 데이터를 나타내는 객체
-            @RequestPart("image") image: MultipartFile? //게시물에 첨부될 이미지 파일
+            @RequestPart data: CreatePostRequest,
+            @RequestPart("image") image: MultipartFile?
     ): ResponseEntity<Any> {
-
-        //이미지 파일이 존재하는지 확인
         if (image == null || image.isEmpty) {
-            //이미지가 비어있을 경우에 예외처리
-            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미지를 넣어주세요")
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미지를 넣어주세요")
         }
 
-        val url = postService.storesupaFile(image)
-        // postservice를 사용하여 게시물을 생성하는 메소드를 호출함
-        // 해당 메소드는 data와 image를 파라미터로 받아서 게시물을 생성하고 저장할 수 있음
-        postService.createPost(data,image)
-        //ResponseEntity를 사용해서 HTTP 응답을 생성
-        //Http.Status.CREATED 는 HTTP 상태코드 201 Created를 나타냄
-        //body에는 true를 담아 클라이언트에게 성공적으로 처리되었음을 보여줌
-        return  ResponseEntity.status(HttpStatus.CREATED).body("게시글이 생성되었습니다.")
+        val imageUrl = postService.storesupaFile(image)
+        postService.createPost(data, imageUrl)
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("게시글이 생성되었습니다.")
     }
 
 
