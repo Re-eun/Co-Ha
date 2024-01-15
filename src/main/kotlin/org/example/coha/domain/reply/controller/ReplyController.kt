@@ -17,6 +17,7 @@ import java.security.Principal
 class ReplyController(
     private val replyService: ReplyService
 ) {
+
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping
     fun creatReply(
@@ -52,10 +53,12 @@ class ReplyController(
     fun deleteReply(@PathVariable replyId: Long
     ): ResponseEntity<String> {
 
+        //ReplyService를 사용하여 주어진 댓글 ID에 해당하는 댓글을 삭제
         replyService.deleteReply(replyId)
-
+        // 댓글 삭제를 성공했을 때 알리는 메세지
         val deleteReplySuccessMessage = "댓글이 성공적으로 삭제되었습니다."
 
+        //HTTP 응답을 생성하여 클라이언트에게 결과 메세지를 반환
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(deleteReplySuccessMessage)
