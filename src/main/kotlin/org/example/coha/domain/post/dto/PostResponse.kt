@@ -6,8 +6,9 @@ data class PostResponse(
     var id: Long?,
     var title: String,
     var content: String,
-    var name: String,
-    var createdAt: String
+    var author: String,
+    var createdAt: String,
+    var view: Int
 ) {
     companion object {
         fun toPostResponse(post: Post): PostResponse { //post객체를 postresponse로 변환
@@ -15,8 +16,9 @@ data class PostResponse(
                 id = post.id,
                 title = post.title,
                 content = post.content,
-                name = post.name,
-                createdAt = post.createdAt.toString()
+                author = post.author,
+                createdAt = post.createdAt.toString(),
+                view = post.view
             )
         }
     }
