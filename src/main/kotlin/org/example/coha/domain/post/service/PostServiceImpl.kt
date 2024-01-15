@@ -25,9 +25,8 @@ import kotlin.time.Duration.Companion.seconds
 @Service
 class PostServiceImpl(
         private val postRepository: PostRepository, //게시글 저장소(PostRepository) 주입
-        private val fileStorageService: FileStorageService, //파일 저장 및 로드 서비스(FiletorageService) 주입
         @Value("\${supabase.url}") private val supabaseUrl: String,
-        @Value("\${supabase.url}") private val supabaseKey: String
+        @Value("\${supabase.key}") private val supabaseKey: String
 ): PostService {
 
     @Transactional
